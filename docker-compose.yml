@@ -1,10 +1,25 @@
-version: '3'
+version: '3.7'
   
 services:
   web:
     build: ./pse
-    command: python pse/manage.py runserver 0.0.0.0:8000
+    command: python pse/manage.py runserver 0:8000
     volumes:
       - .:/code
     ports:
       - "8000:8000"
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
