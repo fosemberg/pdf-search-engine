@@ -10,3 +10,4 @@ pytz==2019.3
 six==1.14.0
 sqlparse==0.2.4
 PyPDF2==1.26.0
+django-dotenv==1.4.2
