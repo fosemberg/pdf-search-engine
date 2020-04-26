@@ -4,6 +4,7 @@ import SearchForm from "../../components/SearchForm/SearchForm";
 import {SearchResponse, SearchRequest} from "../../utils/apiTypes";
 
 import './SearchPage.css';
+import SearchResult from "../../components/SearchResult/SearchResult";
 
 interface SearchPageProps {
   sendData: (searchRequest: SearchRequest) => Promise<SearchResponse>;
@@ -33,6 +34,7 @@ class SearchPage extends React.Component<SearchPageProps, SearchPageState> {
         {
           data.length !== 0 && <div>data</div>
         }
+        <SearchResult/>
       </div>
     )
   }
