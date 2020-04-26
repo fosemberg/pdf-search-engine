@@ -9,3 +9,4 @@ python-dateutil==2.8.1
 pytz==2019.3
 six==1.14.0
 sqlparse==0.2.4
+PyPDF2==1.26.0
