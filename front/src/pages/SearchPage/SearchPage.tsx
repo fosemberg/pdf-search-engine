@@ -29,6 +29,7 @@ class SearchPage extends React.Component<SearchPageProps, SearchPageState> {
 
     return (
       <div className="SearchPage">
+        <h4>Search for information about electronic components</h4>
         <SearchForm sendData={sendData}/>
         {
           data.length !== 0 && <div>data</div>

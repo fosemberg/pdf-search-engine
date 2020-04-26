@@ -24,12 +24,14 @@ const App: React.FC = () => {
   return (
       isReady
           ? <BrowserRouter basename={process.env.PUBLIC_URL}>
-            <Container className={cnTheme({color: 'project-default', space: 'default'}, ["p-3"])}>
+            <Container fluid className={cnTheme({color: 'project-default', space: 'default'}, ["p-0"])}>
               <AppNavbar/>
-              <Switch>
-                <Route path='/' exact={true} component={() => <SearchPage sendData={sendSearchRequest}/>}/>
-                <Route path="/upload" component={() => <UploadPage />}/>
-              </Switch>
+              <Container className="mt-3">
+                <Switch>
+                  <Route path='/' exact={true} component={() => <SearchPage sendData={sendSearchRequest}/>}/>
+                  <Route path="/upload" component={() => <UploadPage />}/>
+                </Switch>
+              </Container>
             </Container>
           </BrowserRouter>
           : <Loader/>
