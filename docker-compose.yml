@@ -1,6 +1,19 @@
 version: '3.7'
   
 services:
+  react-dev:
+    container_name: react-dev
+    tty: true
+    stdin_open: true
+    build: ./front
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./front:/app"
+      - "/app/node_modules"
+    environment:
+      - NODE_ENV=development
+
   web:
     build: ./pse
     command: python pse/manage.py runserver 0:8000
