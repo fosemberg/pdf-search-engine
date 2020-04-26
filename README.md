@@ -7,6 +7,14 @@ start:
 docker-compose up
 ```
 
+django:
+```shell script
+$ docker exec -it web /bin/bash
+$ cd pse
+$ python manage.py populatedb                           # to insert test data to db
+$ python manage.py get_document --name <document_name>  # to get document from db by name
+```
+
 stop:
 ```shell script
 docker-compose down
