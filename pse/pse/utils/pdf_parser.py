@@ -60,12 +60,13 @@ payload = {
 }
 
 
-def parse_pdf(source_filename, open_file_func, write_output_func):
+def parse_pdf(source_filename, open_file_func, write_text_func, write_response_func):
     """
     A function that uses Yandex.Vision to retrieve text from PDF.
     :param source_filename: The name of the source pdf file (<=8 pages)
     :param open_file_func: A function that takes a name of PDF file as an input and returns its contents
-    :param write_output_func: A function that takes output text and saves it somewhere
+    :param write_text_func: A function that takes output text and saves it somewhere
+    :param write_response_func: A function that takes response from Yandex API and saves it somewhere
     :return:
     Example:
     >>> parse_pdf('test', open_pdf, write_text)
@@ -78,8 +79,10 @@ def parse_pdf(source_filename, open_file_func, write_output_func):
         headers=HEADERS,
         data=json.dumps(payload),
     )
-    parsed_text = parse_response(json.loads(r.text))
-    write_output_func(parsed_text, source_filename)
+    response_text = json.loads(r.text)
+    write_response_func(response_text, f'{source_filename}-response')
+    parsed_text = parse_response(response_text)
+    write_text_func(parsed_text, f'{source_filename}-text')
 
 
 def encode_file(file):
@@ -109,3 +112,8 @@ def parse_response(response):
 def write_text(content, filename):
     with open(f'{filename}.txt', "w") as file:
         file.write(content)
+
+
+def write_json(content, filename):
+    with open(f'{filename}.json', 'w') as outfile:
+        json.dump(content, outfile)
