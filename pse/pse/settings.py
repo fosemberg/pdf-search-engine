@@ -25,12 +25,15 @@ SECRET_KEY = '++dh3ml6$)9n94!7303mi=&5wwo!zex51fn41i5!lz#x@4ul_@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0'
+]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'engine.apps.EngineConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,8 +78,21 @@ WSGI_APPLICATION = 'pse.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'djongo',
+        'ENFORCE_SCHEMA': True,
+        'LOGGING': {
+            'version': 1,
+            'loggers': {
+                'djongo': {
+                    'level': 'DEBUG',
+                    'propogate': False,                        
+                }
+            },
+        },
+        'NAME': 'admin',
+        'CLIENT': {
+            'host': 'mongodb://root:rootpassword@mongodb/admin?retryWrites=true&w=majority',
+        }
     }
 }
 
