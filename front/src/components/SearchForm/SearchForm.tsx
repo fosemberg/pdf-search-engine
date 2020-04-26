@@ -50,7 +50,7 @@ const SearchForm: React.FC<IBuildFormProps> = (
               value={keywords}
               onChange={onChangeKeywords}
               type="text"
-              placeholder="tags"
+              placeholder="query"
             />
           </Form.Group>
 
