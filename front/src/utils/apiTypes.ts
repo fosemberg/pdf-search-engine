@@ -1,7 +1,7 @@
 export type RequestComponentName = string;
 export type RequestKeywords = string;
 
-interface PageResponse {
+export interface PageResponse {
   number: number;
   content: string
 }
