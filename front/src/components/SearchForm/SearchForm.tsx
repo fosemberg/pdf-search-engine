@@ -45,12 +45,12 @@ const SearchForm: React.FC<IBuildFormProps> = (
           </Form.Group>
 
           <Form.Group controlId="formBasicEmail">
-            <Form.Label>tags</Form.Label>
+            <Form.Label>query</Form.Label>
             <Form.Control
               value={keywords}
               onChange={onChangeKeywords}
               type="text"
-              placeholder="tags"
+              placeholder="query"
             />
           </Form.Group>
 
