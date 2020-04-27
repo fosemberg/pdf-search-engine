@@ -1,17 +1,47 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from engine.models import Document, Page
 import re
-
-# Create your views here.
-from rest_framework.decorators import api_view
+from rest_framework import status
 from rest_framework.parsers import JSONParser
 
 
-@csrf_exempt
 def index(request):
+    return HttpResponse("Hello world")
+
+
+@csrf_exempt
+def fast_search(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        name = data['name']
+        keywords = data['keywords']
+        docs = [i for i in Document.objects.mongo_aggregate([
+            {'$match': {'name': name}},
+            {'$project': {
+                'pages': {
+                    '$filter': {
+                        'input': '$pages',
+                        'as': 'page',
+                        'cond': {
+                            '$or': [{'$regexMatch':
+                                         {'input': '$$page.text', 'regex': '/.*{}.*/'.format(key)}
+                                     } for key in keywords
+                                    ]
+                         }
+                    }
+                }
+            }},
+            {'$unset': ['pages.text', 'pages.vision']}
+        ])]
+        # Add conversion to json
+        print(docs[0])
+        return HttpResponse("HelloWorld")
+
+
+@csrf_exempt
+def slow_search(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         name = data['name']
@@ -26,9 +56,6 @@ def index(request):
                 if pattern.search(page.text) is not None:
                     found_in_document[page.num] = page.url
             results[document.name] = found_in_document
-        # pages = Document.objects.filter(name=name).aggregate([
-        #     {'$unwind': "$pages"}
-        # ])
-        return JsonResponse(results)
+        return JsonResponse(results, status=status.HTTP_200_OK)
 
 
