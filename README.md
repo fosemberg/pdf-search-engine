@@ -19,3 +19,13 @@ stop:
 ```shell script
 docker-compose down
 ```
+
+## Search
+
+To search `use http://0.0.0.0:8000/fast-search/` or `http://0.0.0.0:8000/slow-search/`
+
+with body
+`{
+	"name":"NUP4114",
+	"keywords":["voltage", "current", "test"]
+}`

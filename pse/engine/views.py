@@ -6,11 +6,6 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 
 import re
-import json
-
-
-def index(request):
-    return HttpResponse("Hello world")
 
 
 @csrf_exempt
@@ -37,7 +32,8 @@ def fast_search(request):
             }},
             {'$unset': ['pages.text', 'pages.vision']}
         ])]
-        # Add conversion to json
+
+        # conversion to json format
         results = dict()
         for od in ods:
             pages = dict(od)['pages']
