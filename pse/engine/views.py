@@ -10,6 +10,7 @@ import re
 
 @csrf_exempt
 def fast_search(request):
+    # TODO: fix this regex matching
     if request.method == 'POST':
         data = JSONParser().parse(request)
         name = data['name']
@@ -22,18 +23,19 @@ def fast_search(request):
                         'input': '$pages',
                         'as': 'page',
                         'cond': {
-                            '$or': [{'$regexMatch':
-                                         {'input': '$$page.text', 'regex': '/.*{}.*/'.format(key)}
+                            '$and': [{'$regexMatch':
+                                         {'input': '$$page.text', 'regex': '/.*{}.*/'.format(key), 'options': 'i'}
                                      } for key in keywords
                                     ]
                          }
                     }
                 }
             }},
-            {'$unset': ['pages.text', 'pages.vision']}
+            {'$unset': ['pages.vision']}
         ])]
 
         # conversion to json format
+        print(ods)
         results = dict()
         for od in ods:
             pages = dict(od)['pages']
@@ -52,14 +54,16 @@ def slow_search(request):
         data = JSONParser().parse(request)
         name = data['name']
         keywords = data['keywords']
-        pattern = re.compile('|'.join(r'\b{}\b'.format(word) for word in keywords))
+        patterns = [re.compile(r'\b{}\b'.format(word), re.IGNORECASE) for word in keywords]
         documents = Document.objects.filter(name=name)
+
         results = dict()
         for document in documents:
             found_in_document = dict()
             pages = document.pages
             for page in pages:
-                if pattern.search(page.text) is not None:
+                has_all_words = all(p.search(page.text) for p in patterns)
+                if has_all_words:
                     found_in_document[page.num] = page.url
             results[document.name] = found_in_document
         return JsonResponse(results, status=status.HTTP_200_OK)
