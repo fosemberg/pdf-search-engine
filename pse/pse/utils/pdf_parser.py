@@ -5,7 +5,7 @@ import requests
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
 
-from pse.pse.settings import IAM_TOKEN, FOLDER_ID
+from pse.pse.settings import API_KEY, FOLDER_ID
 
 
 def split_file_to_pages(file):
@@ -30,7 +30,7 @@ API_URL = 'https://vision.api.cloud.yandex.net/vision/v1/batchAnalyze'
 
 HEADERS = {
     'Content-Type': 'application/json',
-    'Authorization': f'Bearer {IAM_TOKEN}'
+    'Authorization': f'Api-Key {API_KEY}'
 }
 payload = {
     "folderId": FOLDER_ID,

@@ -147,6 +147,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# Yandex.Cloud IAM Token
-IAM_TOKEN = os.getenv('IAM_TOKEN')
+# Yandex.Cloud API token for Vision
+API_KEY = os.getenv('API_KEY')
 FOLDER_ID = os.getenv('FOLDER_ID')

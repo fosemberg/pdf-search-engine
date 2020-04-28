@@ -6,7 +6,7 @@ To connect to Yandex.Cloud:
 - Create `.env` file in the `pse` directory
 - Define the following env variables:
 ```
-IAM_TOKEN=<Yandex.Cloud IAM token>
+API_KEY=<Yandex.Cloud API key>
 FOLDER_ID=<ID of folder in Yandex.Cloud>
 ```
 
