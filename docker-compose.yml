@@ -1,20 +1,21 @@
 version: '3.7'
   
 services:
-  react-dev:
-    container_name: react-dev
-    tty: true
-    stdin_open: true
-    build: ./front
-    ports:
-      - "3000:3000"
-    volumes:
-      - "./front:/app"
-      - "/app/node_modules"
-    environment:
-      - NODE_ENV=development
+  #react-dev:
+  #  container_name: react-dev
+  #  tty: true
+  #  stdin_open: true
+  #  build: ./front
+  #  ports:
+  #    - "3000:3000"
+  #  volumes:
+  #    - "./front:/app"
+  #    - "/app/node_modules"
+  #  environment:
+  #    - NODE_ENV=development
 
   web:
+    container_name: web
     build: ./pse
     command: python pse/manage.py runserver 0:8000
     volumes:
@@ -22,16 +23,28 @@ services:
     ports:
       - "8000:8000"
     depends_on:
+      - migration
       - mongodb
 
+  migration:
+    build: ./pse
+    command: python pse/manage.py migrate --noinput
+    volumes:
+      - .:/code
+    depends_on:
+      - mongodb
+    
   mongodb:
+    container_name: mongo
     image: mongo:latest
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: test
     ports:
       - 27017:27017
     volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - mongodb_data:/data/db
 
 volumes:

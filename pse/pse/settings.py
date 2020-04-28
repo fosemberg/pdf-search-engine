@@ -26,20 +26,24 @@ SECRET_KEY = '++dh3ml6$)9n94!7303mi=&5wwo!zex51fn41i5!lz#x@4ul_@'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    '0.0.0.0'
+    '0.0.0.0',
+    'localhost',
+    '127.0.0.1'
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+
     'engine.apps.EngineConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -72,6 +76,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pse.wsgi.application'
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -79,7 +91,7 @@ WSGI_APPLICATION = 'pse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'ENFORCE_SCHEMA': True,
+        'ENFORCE_SCHEMA': False,
         'LOGGING': {
             'version': 1,
             'loggers': {
@@ -89,9 +101,9 @@ DATABASES = {
                 }
             },
         },
-        'NAME': 'admin',
+        'NAME': 'test',
         'CLIENT': {
-            'host': 'mongodb://root:rootpassword@mongodb/admin?retryWrites=true&w=majority',
+            'host': 'mongodb://user:password@mongodb/test?retryWrites=true&w=majority',
         }
     }
 }
