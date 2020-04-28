@@ -11,6 +11,6 @@ export interface SearchResponse {
 }
 
 export interface SearchRequest {
-  component_name: RequestComponentName;
+  name: RequestComponentName;
   keywords: RequestKeywords;
 }

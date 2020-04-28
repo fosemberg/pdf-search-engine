@@ -7,12 +7,13 @@ import {SERVER_HOST, SERVER_HTTP_PORT} from "../config/env";
 const hostUrl = `${SERVER_HOST}:${SERVER_HTTP_PORT}`;
 
 export const sendSearchRequest = async (searchRequest: SearchRequest): Promise<SearchResponse> => {
-  const url = 'search';
+  const url = 'slow-search';
   const _url = `${hostUrl}/${url}`;
   return fetch(
     `${_url}`,
     {
       method: 'POST',
+      mode: 'no-cors',
       body: JSON.stringify(searchRequest)
     }
   )

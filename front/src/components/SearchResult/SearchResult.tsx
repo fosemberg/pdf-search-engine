@@ -19,7 +19,10 @@ const SearchResult: React.FC<SearchResultProps> = ({pages= []}) => {
         ?.sort(({number: number1},{number: number2}) => number1 - number2)
         .map(
         page =>
-          <div className='SearchResult__page'>
+          <div
+              key={page.number}
+              className='SearchResult__page'
+          >
             <Document file={page.content}>
               <Page
                 pageNumber={1}
