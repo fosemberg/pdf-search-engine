@@ -1,18 +1,13 @@
 version: '3.7'
   
 services:
-  #react-dev:
-  #  container_name: react-dev
-  #  tty: true
-  #  stdin_open: true
-  #  build: ./front
-  #  ports:
-  #    - "3000:3000"
-  #  volumes:
-  #    - "./front:/app"
-  #    - "/app/node_modules"
-  #  environment:
-  #    - NODE_ENV=development
+  react-prod:
+    container_name: react-prod
+    build:
+      context: front
+      dockerfile: dockerfile-prod
+    ports:
+      - "80:80"
 
   web:
     container_name: web
