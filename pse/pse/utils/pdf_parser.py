@@ -3,41 +3,27 @@ import json
 
 import requests
 from PyPDF2 import PdfFileWriter, PdfFileReader
+import io
 
 from pse.pse.settings import IAM_TOKEN, FOLDER_ID
 
 
-def split_file_to_pages(source_filename, open_file_func, write_output_func):
+def split_file_to_pages(file):
     """
     A function to split a PDF file into separate pages.
-    :param source_filename: The name of the source multi-page file
-    :param open_file_func: A function that takes a name of PDF file as an input and returns its contents
-    :param write_output_func: A function that takes output file content and target filename and saves the content
+    :param file: A PDF file object
     :return:
-    Example:
-    >>> split_file_to_pages('test', open_pdf, write_pdf)
     """
-    infile = PdfFileReader(open_file_func(source_filename))
+    infile = PdfFileReader(file)
+    pages = []
     for i in range(infile.getNumPages()):
+        tmp = io.BytesIO()
         p = infile.getPage(i)
-        write_output_func(p, filename=f'{source_filename}-{i}')
-
-
-def open_pdf(filename):
-    """
-    A sample function to get the content of a PDF file.
-    """
-    return open(f'{filename}.pdf', 'rb')
-
-
-def write_pdf(content, filename):
-    """
-    A sample function to write a single-paged PDF.
-    """
-    outfile = PdfFileWriter()
-    outfile.addPage(content)
-    with open(f'pages/{filename}.pdf', 'wb') as f:
-        outfile.write(f)
+        outfile = PdfFileWriter()
+        outfile.addPage(p)
+        outfile.write(tmp)
+        pages.append(tmp.getvalue())
+    return pages
 
 
 API_URL = 'https://vision.api.cloud.yandex.net/vision/v1/batchAnalyze'
@@ -60,18 +46,12 @@ payload = {
 }
 
 
-def parse_pdf(source_filename, open_file_func, write_text_func, write_response_func):
+def parse_pdf(file):
     """
     A function that uses Yandex.Vision to retrieve text from PDF.
-    :param source_filename: The name of the source pdf file (<=8 pages)
-    :param open_file_func: A function that takes a name of PDF file as an input and returns its contents
-    :param write_text_func: A function that takes output text and saves it somewhere
-    :param write_response_func: A function that takes response from Yandex API and saves it somewhere
-    :return:
-    Example:
-    >>> parse_pdf('test', open_pdf, write_text)
+    :param file:The source pdf file (<=8 pages)
+    :return: (response_text, parsed_text)
     """
-    file = open_file_func(source_filename)
     content = encode_file(file)
     payload["analyze_specs"][0]["content"] = content
     r = requests.post(
@@ -80,9 +60,8 @@ def parse_pdf(source_filename, open_file_func, write_text_func, write_response_f
         data=json.dumps(payload),
     )
     response_text = json.loads(r.text)
-    write_response_func(response_text, f'{source_filename}-response')
     parsed_text = parse_response(response_text)
-    write_text_func(parsed_text, f'{source_filename}-text')
+    return response_text, parsed_text
 
 
 def encode_file(file):
@@ -107,13 +86,3 @@ def parse_response(response):
                             output_string += ' '
                             output_string += word['text']
     return output_string
-
-
-def write_text(content, filename):
-    with open(f'{filename}.txt', "w") as file:
-        file.write(content)
-
-
-def write_json(content, filename):
-    with open(f'{filename}.json', 'w') as outfile:
-        json.dump(content, outfile)
