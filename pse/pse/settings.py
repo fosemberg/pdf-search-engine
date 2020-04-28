@@ -97,7 +97,7 @@ DATABASES = {
             'loggers': {
                 'djongo': {
                     'level': 'DEBUG',
-                    'propogate': False,                        
+                    'propogate': False,
                 }
             },
         },
@@ -146,3 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Yandex.Cloud IAM Token
+IAM_TOKEN = os.getenv('IAM_TOKEN')
+FOLDER_ID = os.getenv('FOLDER_ID')
