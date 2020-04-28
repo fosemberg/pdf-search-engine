@@ -26,6 +26,6 @@ To search use `http://0.0.0.0:8000/fast-search/` or `http://0.0.0.0:8000/slow-se
 
 with body
 `{
-	"name":"NUP4114",
-	"keywords":["voltage", "current", "test"]
+	"name": "NUP4114",
+	"keywords": "Test voltage current"
 }`
