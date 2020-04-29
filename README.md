@@ -35,7 +35,19 @@ docker-compose down
 To search use `http://0.0.0.0:8000/fast-search/` or `http://0.0.0.0:8000/slow-search/`
 
 with body
-`{
-	"name":"NUP4114",
-	"keywords":["voltage", "current", "test"]
-}`
+```
+{
+    "name":"NUP4114",
+    "keywords":"voltage"
+}
+```
+
+Response:
+```
+{
+    "NUP4114": {
+        "2": "https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114-2.pdf",
+        "3": "https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114-3.pdf"
+    }
+}
+```
