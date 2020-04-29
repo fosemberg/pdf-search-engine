@@ -26,3 +26,4 @@ wcwidth==0.1.9
 djangorestframework==3.10.2
 boto3==1.12.48 
 botocore==1.15.48
+requests

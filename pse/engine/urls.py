@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('slow-search/', views.slow_search),
-    path('fast-search/', views.fast_search)
+    path('fast-search/', views.fast_search),
+    path('upload/', views.upload)
 ]
