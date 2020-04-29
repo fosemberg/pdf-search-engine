@@ -20,7 +20,10 @@ python-dateutil==2.8.1
 pytz==2019.3
 six==1.14.0
 sqlparse==0.2.4
+PyPDF2==1.26.0
 traitlets==4.3.3
 wcwidth==0.1.9
 djangorestframework==3.10.2
 django-cors-headers==3.2.1
+boto3==1.12.48 
+botocore==1.15.48

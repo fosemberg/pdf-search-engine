@@ -98,7 +98,7 @@ DATABASES = {
             'loggers': {
                 'djongo': {
                     'level': 'DEBUG',
-                    'propogate': False,                        
+                    'propogate': False,
                 }
             },
         },
@@ -150,3 +150,7 @@ STATIC_URL = '/static/'
 
 # CORS
 CORS_ORIGIN_ALLOW_ALL = True
+
+# Yandex.Cloud API token for Vision
+API_KEY = 'AQVNw0SE3iQbWpYYB7Rm4rGVyCD6U0SHjujrrXUe'
+FOLDER_ID = 'b1gfmvlr271su6a08u5a'

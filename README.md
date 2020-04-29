@@ -1,5 +1,15 @@
 # PDF search engine
 
+## Set up
+
+To connect to Yandex.Cloud:
+- Create `.env` file in the `pse` directory
+- Define the following env variables:
+```
+API_KEY=<Yandex.Cloud API key>
+FOLDER_ID=<ID of folder in Yandex.Cloud>
+```
+
 ## Deploy
 
 start:
@@ -25,7 +35,19 @@ docker-compose down
 To search use `http://0.0.0.0:8000/fast-search/` or `http://0.0.0.0:8000/slow-search/`
 
 with body
-`{
-	"name": "NUP4114",
-	"keywords": "Test voltage current"
-}`
+```
+{
+    "name":"NUP4114",
+    "keywords":"voltage"
+}
+```
+
+Response:
+```
+{
+    "NUP4114": {
+        "2": "https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114-2.pdf",
+        "3": "https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114-3.pdf"
+    }
+}
+```
