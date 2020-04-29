@@ -148,5 +148,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Yandex.Cloud API token for Vision
-API_KEY = os.getenv('API_KEY')
-FOLDER_ID = os.getenv('FOLDER_ID')
+API_KEY = 'AQVNw0SE3iQbWpYYB7Rm4rGVyCD6U0SHjujrrXUe'
+FOLDER_ID = 'b1gfmvlr271su6a08u5a'
