@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import SearchForm from "../../components/SearchForm/SearchForm";
-import {SearchResponse, SearchRequest, PageResponse} from "../../utils/apiTypes";
+import {SearchResponse, SearchRequest} from "../../utils/apiTypes";
 import SearchResult from "../../components/SearchResult/SearchResult";
 
 import './SearchPage.css';
@@ -11,35 +11,37 @@ interface SearchPageProps {
 }
 
 interface SearchPageState {
-  pages: PageResponse[];
+  searchResponse: SearchResponse;
 }
 
 class SearchPage extends React.Component<SearchPageProps, SearchPageState> {
   constructor(props: SearchPageProps) {
     super(props);
     this.state = {
-      pages: []
+      searchResponse: {}
     }
   }
 
   sendData = async (searchRequest: SearchRequest) => {
-    const response = await this.props.sendData(searchRequest);
-    this.setState(response);
+    const searchResponse = await this.props.sendData(searchRequest);
+    this.setState({searchResponse});
   }
 
   render() {
     const {
-      state: {pages},
+      state: {searchResponse},
       sendData,
     } = this;
+
+    const components = Object.keys(searchResponse);
 
     return (
       <div className="SearchPage">
         <h4>Search for information about electronic components</h4>
         <SearchForm sendData={sendData}/>
         {
-          pages.length !== 0 && <SearchResult
-              pages={pages}
+          components.length !== 0 && <SearchResult
+              searchResponse={searchResponse}
           />
         }
       </div>

@@ -14,7 +14,7 @@ def fast_search(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         name = data['name']
-        keywords = data['keywords']
+        keywords = data['keywords'].split()
         ods = [i for i in Document.objects.mongo_aggregate([
             {'$match': {'name': name}},
             {'$project': {
@@ -53,7 +53,7 @@ def slow_search(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
         name = data['name']
-        keywords = data['keywords']
+        keywords = data['keywords'].split()
         patterns = [re.compile(r'\b{}\b'.format(word), re.IGNORECASE) for word in keywords]
         documents = Document.objects.filter(name=name)
 
