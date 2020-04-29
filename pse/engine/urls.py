@@ -1,8 +1,8 @@
-from django.urls import path
+from django.conf.urls import url
 
 from . import views
 
 urlpatterns = [
-    path('slow-search/', views.slow_search),
-    path('fast-search/', views.fast_search)
+    url(r'^slow-search/?$', views.slow_search),
+    url(r'^fast-search/?$', views.fast_search)
 ]
