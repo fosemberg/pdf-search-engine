@@ -5,7 +5,7 @@ import requests
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
 
-from pse.pse.settings import API_KEY, FOLDER_ID
+from pse.settings import API_KEY, FOLDER_ID
 
 
 def split_file_to_pages(file):

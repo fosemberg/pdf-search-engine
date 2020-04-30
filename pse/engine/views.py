@@ -13,6 +13,21 @@ from utils import storage_upload
 
 
 @csrf_exempt
+def get_all(request):
+    if request.method == 'GET':
+        documents = Document.objects.all()
+        results = dict()
+        for document in documents:
+            found_in_document = dict()
+            pages = document.pages
+            for page in pages:
+                found_in_document[page.num] = page.url
+            results[document.name] = found_in_document
+        return JsonResponse(results, status=status.HTTP_200_OK)
+
+
+
+@csrf_exempt
 def fast_search(request):
     # TODO: fix this regex matching
     if request.method == 'POST':
@@ -84,20 +99,18 @@ def upload(request):
         workpath = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(workpath, 'test.pdf'), 'rb') as pdf_file:
 
-            # saving document to storage
-            document_url = storage_upload.fileobj2url(pdf_file, document_name)
-            if document_url['error'] is not None:
-                return HttpResponse('Unable to load the file', status=status.HTTP_424_FAILED_DEPENDENCY)
+
 
             # saving pages
             pdf_pages = pdf_parser.split_file_to_pages(os.path.join(workpath, 'test.pdf'))
+            print(pdf_pages)
             pages = []
             for i in range(len(pdf_pages)):
+                vision, text = pdf_parser.parse_pdf(pdf_pages[i])
                 url = storage_upload.fileobj2url(pdf_pages[i], '{}_page_{}'.format(document_name, i))
                 if url['error'] is not None:
                     return HttpResponse('Unable to load the file', status=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE)
                 # TODO: this line below causes exception: pdf_pages[i] should be open!
-                vision, text = pdf_parser.parse_pdf(pdf_pages[i].getvalue())
                 pages.append(
                     Page(
                         url=url['url'],
@@ -106,6 +119,11 @@ def upload(request):
                         vision=vision
                     )
                 )
+
+            # saving document to storage
+            document_url = storage_upload.fileobj2url(pdf_file, document_name)
+            if document_url['error'] is not None:
+                return HttpResponse('Unable to load the file', status=status.HTTP_424_FAILED_DEPENDENCY)
 
             # saving document
             d = Document(name='NUP4114', url=document_url, pages=pages)
