@@ -13,20 +13,20 @@ const SearchForm: React.FC<IBuildFormProps> = (
     sendData = () => {}
   }
 ) => {
-  const [component_name, setComponent_name] = useState<RequestComponentName>('');
-  const onChangeComponentName = (e: React.ChangeEvent<HTMLInputElement>) => setComponent_name(e.currentTarget.value);
+  const [componentName, setComponentName] = useState<RequestComponentName>('');
+  const onChangeComponentName = (e: React.ChangeEvent<HTMLInputElement>) => setComponentName(e.currentTarget.value);
 
   const [keywords, setKeywords] = useState<RequestKeywords>('');
   const onChangeKeywords = (e: React.ChangeEvent<HTMLInputElement>) => setKeywords(e.currentTarget.value);
 
   const clearData = () => {
-    setComponent_name('');
+    setComponentName('');
     setKeywords('');
   };
 
   const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    sendData({component_name, keywords});
+    sendData({name: componentName, keywords});
     clearData();
   };
 
@@ -37,7 +37,7 @@ const SearchForm: React.FC<IBuildFormProps> = (
           <Form.Group controlId="formBasicEmail">
             <Form.Label>component name</Form.Label>
             <Form.Control
-              value={component_name}
+              value={componentName}
               onChange={onChangeComponentName}
               type="text"
               placeholder="component name"

@@ -1,16 +1,13 @@
 export type RequestComponentName = string;
 export type RequestKeywords = string;
 
-export interface PageResponse {
-  number: number;
-  content: string
-}
-
 export interface SearchResponse {
-  pages: PageResponse[];
+  [key: string]: {
+    [key: string]: string
+  }
 }
 
 export interface SearchRequest {
-  component_name: RequestComponentName;
+  name: RequestComponentName;
   keywords: RequestKeywords;
 }
