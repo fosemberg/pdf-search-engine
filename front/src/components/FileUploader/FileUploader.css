@@ -1,0 +1,10 @@
+.FileUploader-Drag-n-drop {
+  margin-bottom: var(--space-s);
+}
+
+.FileUploader-Preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-m);
+}

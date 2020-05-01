@@ -31,7 +31,7 @@ const SearchForm: React.FC<IBuildFormProps> = (
   };
 
   return (
-    <Card className="BuildForm">
+    <Card className="SearchForm">
       <Card.Body>
         <Form>
           <Form.Group controlId="formBasicEmail">
