@@ -21,8 +21,9 @@ def extract_table_to_dfs(page, threshold):
         return dfs
 
 
-# likely to change if not using urls!
+# likely to change if not using urls but keys!
+# also data can be lost when converting to csv, fix?
 def save_df_as_csv_to_storage(df, name):
     csv = df.to_csv()
     key = '{}_key'.format(name)
-    return storage_upload. file2url(name, key)
+    return storage_upload. fileobj2url(csv, key)
