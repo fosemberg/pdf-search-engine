@@ -15,16 +15,8 @@ from utils import storage_upload
 @csrf_exempt
 def get_all(request):
     if request.method == 'GET':
-        documents = Document.objects.all()
-        results = dict()
-        for document in documents:
-            found_in_document = dict()
-            pages = document.pages
-            for page in pages:
-                found_in_document[page.num] = page.url
-            results[document.name] = found_in_document
-        return JsonResponse(results, status=status.HTTP_200_OK)
-
+        documents = Document.objects.all().values_list('name', flat=True)
+        return HttpResponse(documents, status=status.HTTP_200_OK)
 
 
 @csrf_exempt
