@@ -4,11 +4,11 @@ import {Button, Card, Form} from "react-bootstrap";
 
 import {RequestKeywords, RequestComponentName, SearchRequest} from "../../utils/apiTypes";
 
-interface IBuildFormProps {
+interface SearchFormProps {
   sendData?: (searchRequest: SearchRequest) => void;
 }
 
-const SearchForm: React.FC<IBuildFormProps> = (
+const SearchForm: React.FC<SearchFormProps> = (
   {
     sendData = () => {}
   }

@@ -6,13 +6,11 @@ import SearchPage from "./pages/SearchPage/SearchPage";
 import AppNavbar from "./components/AppNavbar/AppNavbar";
 import UploadPage from "./pages/UploadPage/UploadPage";
 import Loader from "./components/Loader/Loader";
-import {sendSearchRequest} from "./store/store";
+import {sendSearchRequest, sendUploadFileRequest} from "./store/store";
 import {cnTheme} from "./components/Theme";
 
 import "./components/Theme/_color/Theme_color_project-default.css";
 import "./components/Theme/_space/Theme_space_default.css";
-
-
 
 const App: React.FC = () => {
   const [isReady, setReady] = useState<boolean>(false);
@@ -29,7 +27,7 @@ const App: React.FC = () => {
               <Container className="mt-3">
                 <Switch>
                   <Route path='/' exact={true} component={() => <SearchPage sendData={sendSearchRequest}/>}/>
-                  <Route path="/upload" component={() => <UploadPage />}/>
+                  <Route path="/upload" component={() => <UploadPage sendData={sendUploadFileRequest} />}/>
                 </Switch>
               </Container>
             </Container>

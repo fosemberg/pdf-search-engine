@@ -1,19 +1,25 @@
 import React, {useCallback, useState} from 'react'
 import {useDropzone} from 'react-dropzone'
-import {Document, Page} from "react-pdf";
 import {Card} from "react-bootstrap";
 import {cn} from "@bem-react/classname";
 
-import './FileUploader.css'
+import './FileUploader.css';
+
+interface FileUploaderProps {
+  setFile?: (file: Blob) => void;
+  isSuccessLoad?: boolean;
+}
 
 const cnFileUploader = cn('FileUploader');
 
-const FileUploader = () => {
-  const [file, setFile] = useState()
-  const [isSuccessLoad, setIsSuccessLoad] = useState();
-
+const FileUploader: React.FC<FileUploaderProps> = (
+  {
+    setFile= () => {},
+    isSuccessLoad,
+  }
+) => {
   const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file: any) => {
+    acceptedFiles.forEach((file: Blob) => {
       setFile(file);
       const reader = new FileReader()
 
@@ -44,18 +50,6 @@ const FileUploader = () => {
           <p>Drag 'n' drop some files here, or click to select files</p>
         </Card.Body>
       </Card>
-      {
-        !!file &&
-        <div className={cnFileUploader('Preview')}>
-          <Document
-            file={file}
-            onLoadSuccess={() => setIsSuccessLoad(true)}
-            onLoadError={() => setIsSuccessLoad(false)}
-          >
-            <Page pageNumber={1}/>
-          </Document>
-        </div>
-      }
     </div>
   )
 }

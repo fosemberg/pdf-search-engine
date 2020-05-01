@@ -1,0 +1,11 @@
+.UploadForm {
+  margin-bottom: var(--space-xxxl);
+}
+
+.UploadForm-FilePreview {
+  margin-top: var(--space-l);
+}
+
+.UploadForm-FilePreviewHeader {
+  text-align: center;
+}
