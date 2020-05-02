@@ -9,6 +9,9 @@ NANS_THRESHOLD = 0.75
 
 
 def save_tables_from_page(page, page_number):
+    """
+    :param page: pdf page in bytes
+    """
     dfs = extract_table_to_dfs(page)
     table_number = 0
     for df in dfs:
@@ -17,11 +20,6 @@ def save_tables_from_page(page, page_number):
 
 
 def extract_table_to_dfs(page):
-    """
-    :param page: pdf page in bytes
-    :param threshold: max percentage of nans
-    :return: list of pandas DataFrames
-    """
     with pdfplumber.load(page) as pdf_page:
         tables = pdf_page.pages[0].extract_tables()
         dfs = []
