@@ -51,3 +51,20 @@ Response:
     }
 }
 ```
+
+## Upload
+
+To search use `http://0.0.0.0:8000/upload/`
+
+with body
+```
+{
+    "file":<File content>,
+    "filename":"NUP4114"
+}
+```
+
+and headers
+```
+Content-Type: multipart/form-data;
+```

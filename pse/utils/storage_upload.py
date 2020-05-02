@@ -30,12 +30,11 @@ def file2url(filename, filekey):
         presigned_url = s3_client.generate_presigned_url(
             "get_object",
             Params={"Bucket": STORAGE_NAME, "Key": filekey},
-            ExpiresIn=3600,
         )
     except ClientError as e:
         return {'url': '', 'error': e}
 
-    return {'url': presigned_url, 'error': None}
+    return {'url': presigned_url.split('?')[0], 'error': None}
 
 def fileobj2url(fileobj, filekey):
     s3_client = init_client()
@@ -45,9 +44,8 @@ def fileobj2url(fileobj, filekey):
         presigned_url = s3_client.generate_presigned_url(
             "get_object",
             Params={"Bucket": STORAGE_NAME, "Key": filekey},
-            ExpiresIn=3600,
         )
     except ClientError as e:
         return {'url': '', 'error': e}
 
-    return {'url': presigned_url, 'error': None}
+    return {'url': presigned_url.split('?')[0], 'error': None}
