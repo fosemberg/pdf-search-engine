@@ -5,7 +5,7 @@ import requests
 from PyPDF2 import PdfFileWriter, PdfFileReader
 import io
 
-from pse.pse.settings import API_KEY, FOLDER_ID
+from pse.settings import API_KEY, FOLDER_ID
 
 
 def split_file_to_pages(file):
@@ -22,7 +22,8 @@ def split_file_to_pages(file):
         outfile = PdfFileWriter()
         outfile.addPage(p)
         outfile.write(tmp)
-        pages.append(tmp.getvalue())
+        tmp.seek(0)
+        pages.append(tmp)
     return pages
 
 
@@ -68,7 +69,7 @@ def encode_file(file):
     """
     Prepare  the file content to be passed to Yandex.Cloud API.
     """
-    file_content = file.read()
+    file_content = file.getvalue()
     return base64.b64encode(file_content).decode("utf-8")
 
 
