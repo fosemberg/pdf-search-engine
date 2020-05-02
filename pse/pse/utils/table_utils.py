@@ -11,6 +11,7 @@ NANS_THRESHOLD = 0.75
 def save_tables_from_page(page, page_number):
     """
     :param page: pdf page in bytes
+    :param page_number: number of page
     """
     dfs = extract_table_to_dfs(page)
     table_number = 0
