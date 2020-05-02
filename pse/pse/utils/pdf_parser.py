@@ -22,6 +22,7 @@ def split_file_to_pages(file):
         outfile = PdfFileWriter()
         outfile.addPage(p)
         outfile.write(tmp)
+        tmp.seek(0)
         pages.append(tmp)
     return pages
 
