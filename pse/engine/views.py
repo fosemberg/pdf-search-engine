@@ -91,7 +91,7 @@ def upload(request):
             vision, text = pdf_parser.parse_pdf(pdf_pages[i])
             url = storage_upload.fileobj2url(pdf_pages[i], '{}_page_{}'.format(document_name, i))
             if url['error'] is not None:
-                return HttpResponse('Unable to load the file', status=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE)
+                return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             pages.append(
                 Page(
                     url=url['url'],
@@ -104,7 +104,7 @@ def upload(request):
         # saving document to storage
         document_url = storage_upload.fileobj2url(pdf_file, document_name)
         if document_url['error'] is not None:
-            return HttpResponse('Unable to load the file', status=status.HTTP_424_FAILED_DEPENDENCY)
+            return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # saving document
         d = Document(name=document_name, url=document_url, pages=pages)

@@ -1,10 +1,10 @@
-from django.urls import path
+from django.conf.urls import url
 
 from . import views
 
 urlpatterns = [
-    path('slow-search/', views.slow_search),
-    path('fast-search/', views.fast_search),
-    path('upload/', views.upload),
-    path('all/', views.get_all)
+    url(r'^slow-search/?$', views.slow_search),
+    url(r'^fast-search/?$', views.slow_search),
+    url(r'^upload/?$', views.upload),
+    url(r'^all/?$', views.get_all),
 ]
