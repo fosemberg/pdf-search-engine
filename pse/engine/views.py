@@ -1,11 +1,22 @@
-from django.http import HttpResponse
-from django.http import JsonResponse
+import os
+
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from engine.models import Document, Page
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 
 import re
+
+from pse.utils import pdf_parser
+from utils import storage_upload
+
+
+@csrf_exempt
+def get_all(request):
+    if request.method == 'GET':
+        documents = Document.objects.all().values_list('name', flat=True)
+        return HttpResponse(documents, status=status.HTTP_200_OK)
 
 
 @csrf_exempt
@@ -69,3 +80,35 @@ def slow_search(request):
         return JsonResponse(results, status=status.HTTP_200_OK)
 
 
+@csrf_exempt
+def upload(request):
+    if request.method == 'POST':
+        pdf_file = request.FILES['file']
+        document_name = request.POST['filename']
+        pdf_pages = pdf_parser.split_file_to_pages(pdf_file)
+        pages = []
+        for i in range(len(pdf_pages)):
+            vision, text = pdf_parser.parse_pdf(pdf_pages[i])
+            url = storage_upload.fileobj2url(pdf_pages[i], '{}_page_{}'.format(document_name, i))
+            if url['error'] is not None:
+                return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            pages.append(
+                Page(
+                    url=url['url'],
+                    num=i + 1,
+                    text=text,
+                    vision=vision
+                )
+            )
+
+        # saving document to storage
+        document_url = storage_upload.fileobj2url(pdf_file, document_name)
+        if document_url['error'] is not None:
+            return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # saving document
+        d = Document(name=document_name, url=document_url, pages=pages)
+        d.save()
+        return HttpResponse(status=status.HTTP_201_CREATED)
+
+    return HttpResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR)

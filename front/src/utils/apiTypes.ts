@@ -11,3 +11,10 @@ export interface SearchRequest {
   name: RequestComponentName;
   keywords: RequestKeywords;
 }
+
+export interface FileUploadRequest {
+  file: Blob;
+  filename: string;
+}
+
+export type FileUploadResponse = boolean;

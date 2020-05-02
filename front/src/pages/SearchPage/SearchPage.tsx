@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {cn} from "@bem-react/classname";
 
 import SearchForm from "../../components/SearchForm/SearchForm";
 import {SearchResponse, SearchRequest} from "../../utils/apiTypes";
@@ -13,6 +14,8 @@ interface SearchPageProps {
 interface SearchPageState {
   searchResponse: SearchResponse;
 }
+
+const cnSearchPage = cn('SearchPage');
 
 class SearchPage extends React.Component<SearchPageProps, SearchPageState> {
   constructor(props: SearchPageProps) {
@@ -36,7 +39,7 @@ class SearchPage extends React.Component<SearchPageProps, SearchPageState> {
     const components = Object.keys(searchResponse);
 
     return (
-      <div className="SearchPage">
+      <div className={cnSearchPage()}>
         <h4>Search for information about electronic components</h4>
         <SearchForm sendData={sendData}/>
         {
