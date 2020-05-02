@@ -43,6 +43,7 @@ export const sendUploadFileRequest = async ({file, filename}: FileUploadRequest)
       `${_url}`,
       {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'multipart/form-data',
         },
