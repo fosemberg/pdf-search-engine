@@ -18,7 +18,7 @@ def extract_table_to_dfs(page, threshold):
             number_of_nans = df.isnull().sum().sum()
             if number_of_nans / (n * m) <= threshold:
                 dfs.append(df)
-        return dfs
+    return dfs
 
 
 # likely to change if not using urls but keys!
@@ -26,4 +26,4 @@ def extract_table_to_dfs(page, threshold):
 def save_df_as_csv_to_storage(df, name):
     csv = df.to_csv()
     key = '{}_key'.format(name)
-    return storage_upload. fileobj2url(csv, key)
+    return storage_upload.fileobj2url(csv, key)
