@@ -36,21 +36,16 @@ export const sendUploadFileRequest = async ({file, filename}: FileUploadRequest)
   const url = 'upload';
   const _url = `${hostUrl}/${url}`;
   try {
-    const formData  = new FormData();
-    formData.append('blob', file, filename)
+    const formData = new FormData();
+    formData.append("file", file, filename);
+    formData.append("filename", filename);
 
-    const response = await fetch(
-      `${_url}`,
-      {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-        body: formData,
-      }
-    )
-    return true;
+    let response = fetch(_url, {
+      method: 'POST',
+      body: formData,
+      redirect: 'follow'
+    })
+    return true
   } catch (error) {
     console.error(error);
     return false;
