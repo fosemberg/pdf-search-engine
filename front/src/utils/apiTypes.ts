@@ -18,3 +18,11 @@ export interface FileUploadRequest {
 }
 
 export type FileUploadResponse = boolean;
+
+export type GetComponentNamesRequest = string;
+
+export type ComponentNames = string[];
+
+export interface GetComponentNamesResponse {
+  names: ComponentNames;
+}
