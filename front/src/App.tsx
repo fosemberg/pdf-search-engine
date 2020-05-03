@@ -6,7 +6,7 @@ import SearchPage from "./pages/SearchPage/SearchPage";
 import AppNavbar from "./components/AppNavbar/AppNavbar";
 import UploadPage from "./pages/UploadPage/UploadPage";
 import Loader from "./components/Loader/Loader";
-import {sendSearchRequest, sendUploadFileRequest} from "./store/store";
+import {sendGetComponentNamesRequest, sendSearchRequest, sendUploadFileRequest} from "./store/store";
 import {cnTheme} from "./components/Theme";
 
 import "./components/Theme/_color/Theme_color_project-default.css";
@@ -26,8 +26,20 @@ const App: React.FC = () => {
               <AppNavbar/>
               <Container className="mt-3">
                 <Switch>
-                  <Route path='/' exact={true} component={() => <SearchPage sendData={sendSearchRequest}/>}/>
-                  <Route path="/upload" component={() => <UploadPage sendData={sendUploadFileRequest} />}/>
+                  <Route
+                    path='/'
+                    exact={true}
+                    component={() => <SearchPage
+                      sendData={sendSearchRequest}
+                      getComponentNames={sendGetComponentNamesRequest}
+                    />}
+                  />
+                  <Route
+                    path="/upload"
+                    component={() => <UploadPage
+                      sendData={sendUploadFileRequest}
+                    />}
+                  />
                 </Switch>
               </Container>
             </Container>

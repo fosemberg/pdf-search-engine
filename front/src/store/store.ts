@@ -1,26 +1,47 @@
 import {
-  SearchResponse,
-  SearchRequest, FileUploadResponse, FileUploadRequest
+  ComponentNames,
+  FileUploadRequest,
+  FileUploadResponse,
+  GetComponentNamesRequest,
+  GetComponentNamesResponse,
+  SearchRequest,
+  SearchResponse
 } from "../utils/apiTypes";
 import {SERVER_HOST, SERVER_HTTP_PORT} from "../config/env";
 
 const hostUrl = `${SERVER_HOST}:${SERVER_HTTP_PORT}`;
 
-export const sendSearchRequest = async (searchRequest: SearchRequest): Promise<SearchResponse> => {
-  const url = 'slow-search';
-  const _url = `${hostUrl}/${url}`;
+export const sendGetComponentNamesRequest = async (getComponentNamesRequest: GetComponentNamesRequest = ''): Promise<ComponentNames> => {
+  const endpoint = 'all'
+  const url = `${hostUrl}/${endpoint}`;
+
   try {
     const response = await fetch(
-      `${_url}`,
+      `${url}`,
+      {
+        method: 'GET',
+      }
+    )
+    const json: GetComponentNamesResponse = await response.json()
+    return Array.from(new Set(json.names))
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}
+
+export const sendSearchRequest = async (searchRequest: SearchRequest): Promise<SearchResponse> => {
+  const endpoint = 'slow-search';
+  const url = `${hostUrl}/${endpoint}`;
+  try {
+    const response = await fetch(
+      `${url}`,
       {
         method: 'POST',
         body: JSON.stringify(searchRequest)
       }
     )
-    console.log(response)
-    const json = await response.json()
-    console.log(json)
-    return json;
+    return await response.json();
   } catch (error) {
     console.error(error);
     return {
@@ -33,21 +54,21 @@ export const sendSearchRequest = async (searchRequest: SearchRequest): Promise<S
 }
 
 export const sendUploadFileRequest = async ({file, filename}: FileUploadRequest): Promise<FileUploadResponse> => {
-  const url = 'upload';
-  const _url = `${hostUrl}/${url}`;
+  const endpoint = 'upload'
+  const url = `${hostUrl}/${endpoint}`
   try {
-    const formData = new FormData();
-    formData.append("file", file, filename);
-    formData.append("filename", filename);
+    const formData = new FormData()
+    formData.append("file", file, filename)
+    formData.append("filename", filename)
 
-    let response = fetch(_url, {
+    let response = fetch(url, {
       method: 'POST',
       body: formData,
       redirect: 'follow'
     })
     return true
   } catch (error) {
-    console.error(error);
-    return false;
+    console.error(error)
+    return false
   }
 }

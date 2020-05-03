@@ -15,8 +15,16 @@ from utils import storage_upload
 @csrf_exempt
 def get_all(request):
     if request.method == 'GET':
-        documents = Document.objects.all().values_list('name', flat=True)
-        return HttpResponse(documents, status=status.HTTP_200_OK)
+        component_names_query_set = Document.objects.all().values_list('name', flat=True)
+
+        component_names = []
+        for component_name in component_names_query_set:
+            component_names.append(component_name)
+
+        result = dict()
+        result['names'] = component_names
+
+        return JsonResponse(result, status=status.HTTP_200_OK)
 
 
 @csrf_exempt
