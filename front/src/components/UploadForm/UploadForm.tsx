@@ -64,7 +64,7 @@ const UploadForm: React.FC<UploadFormProps> = (
             className={cnUploadForm('Submit')}
             variant="primary"
             type="submit"
-            disabled={!isSuccessLoad}
+            disabled={!isSuccessLoad || !filename}
           >
             Upload
           </Button>
