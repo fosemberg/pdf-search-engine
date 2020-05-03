@@ -56,7 +56,7 @@ export const sendUploadFileRequest = async ({file, filename}: FileUploadRequest)
     formData.append("file", file, filename)
     formData.append("filename", filename)
 
-    let response = fetch(url, {
+    let response = await fetch(url, {
       method: 'POST',
       body: formData,
       redirect: 'follow'
