@@ -35,7 +35,7 @@ const SearchResult: React.FC<SearchResultProps> = (
                     className='SearchResult__page'
                   >
                     <Document
-                      file={`https://cors-anywhere.herokuapp.com/${url}`}
+                      file={url}
                       loading={<Loader/>}
                     >
                       <Page
