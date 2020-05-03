@@ -1,15 +1,5 @@
 # PDF search engine
 
-## Set up
-
-To connect to Yandex.Cloud:
-- Create `.env` file in the `pse` directory
-- Define the following env variables:
-```
-API_KEY=<Yandex.Cloud API key>
-FOLDER_ID=<ID of folder in Yandex.Cloud>
-```
-
 ## Deploy
 
 start:
