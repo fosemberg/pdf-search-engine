@@ -10,6 +10,7 @@ import re
 
 from pse.utils import pdf_parser
 from utils import storage_upload
+from pse.utils import table_utils
 
 
 @csrf_exempt
@@ -93,6 +94,8 @@ def upload(request):
         pages = []
         for i in range(len(pdf_pages)):
             vision, text = pdf_parser.parse_pdf(pdf_pages[i])
+            # line below closes page
+            tables = table_utils.save_tables_from_page(pdf_pages[i], i)
             url = storage_upload.fileobj2url(pdf_pages[i], '{}_page_{}'.format(document_name, i))
             if url['error'] is not None:
                 return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -101,7 +104,8 @@ def upload(request):
                     url=url['url'],
                     num=i + 1,
                     text=text,
-                    vision=vision
+                    vision=vision,
+                    tables=tables
                 )
             )
 

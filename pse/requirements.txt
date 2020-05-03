@@ -29,5 +29,6 @@ boto3==1.12.48
 botocore==1.15.48
 pdfplumber
 pandas
+openpyxl
 numpy
 requests

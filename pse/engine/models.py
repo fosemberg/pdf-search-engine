@@ -24,10 +24,10 @@ class Page(models.Model):
     num = models.IntegerField()
     text = models.TextField()
     vision = models.TextField()
-    # tables = models.ArrayField(
-    #     model_container=Table,
-    #     model_form_class=TableForm
-    # )
+    tables = models.ArrayField(
+        model_container=Table,
+        model_form_class=TableForm
+    )
 
     def __str__(self):
         return f'<Page {self.num}>'

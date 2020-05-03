@@ -2,22 +2,27 @@ import pandas as pd
 import pdfplumber
 import io
 import numpy as np
+from django.http import HttpResponse
+from rest_framework import status
 from utils import storage_upload
+from engine.models import Table
 
 
 NANS_THRESHOLD = 0.75
 
 
 def save_tables_from_page(page, page_number):
-    """
-    :param page: pdf page in bytes
-    :param page_number: number of page
-    """
     dfs = extract_table_to_dfs(page)
     table_number = 0
+    tables = []
     for df in dfs:
-        save_df_as_csv_to_storage(df, 'page_{}_table_{}.csv'.format(page_number, table_number))
+        table_url = save_df_as_csv_to_storage(df, 'page_{}_table_{}.csv'.format(page_number, table_number))
+        if table_url['error'] is not None:
+            return HttpResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        table_model = Table(url=table_url['url'], num=table_number)
+        tables.append(table_model)
         table_number += 1
+    return tables
 
 
 def extract_table_to_dfs(page):

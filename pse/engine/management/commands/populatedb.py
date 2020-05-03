@@ -29,6 +29,7 @@ class Command(BaseCommand):
                 url=urls[i],
                 num=i+1,
                 text=text,
-                vision=vision))
+                vision=vision,
+                tables=[]))
         d = Document(name='NUP4114', url='https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114.pdf', pages=pages)
         d.save()
