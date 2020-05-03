@@ -113,24 +113,21 @@ const UploadForm: React.FC<UploadFormProps> = (
                 : 'Upload'
             }
           </Button>
-          {
-            !!file &&
-            <div className={cnUploadForm('FilePreview')}>
-                {
-                  sendStatus === SendStatus.success
-                    ? <Alert variant='success'>File uploaded successfully</Alert>
-                    : sendStatus === SendStatus.error
-                      ? <Alert variant='danger'>An error occurred while downloading the file</Alert>
-                      : <>
-                          {
-                            uploadStatus === UploadStatus.success &&
-                              <h5 className={cnUploadForm('FilePreviewHeader')}>File preview</h5>
-                          }
-                        <FileUploadPreview {...{file, setIsSuccessLoad}} />
-                      </>
-                }
-            </div>
-          }
+          <div className={cnUploadForm('Result')}>
+            {
+              !!file
+              ? <>
+                  {
+                    uploadStatus !== UploadStatus.error &&
+                      <h5 className={cnUploadForm('FilePreviewHeader')}>File preview</h5>
+                  }
+                <FileUploadPreview {...{file, setIsSuccessLoad}} />
+              </>
+              : sendStatus === SendStatus.success
+                ? <Alert variant='success'>File uploaded successfully</Alert>
+                : sendStatus === SendStatus.error && <Alert variant='danger'>An error occurred while uploading the file</Alert>
+            }
+          </div>
         </Form>
       </Card.Body>
     </Card>
