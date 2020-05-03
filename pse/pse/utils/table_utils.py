@@ -26,17 +26,17 @@ def save_tables_from_page(page, page_number):
 
 
 def extract_table_to_dfs(page):
-    with pdfplumber.load(page) as pdf_page:
-        tables = pdf_page.pages[0].extract_tables()
-        dfs = []
-        for table in tables:
-            df = pd.DataFrame(table[1:], columns=table[0])
-            number_of_not_nans = np.sum(df.count())
-            if number_of_not_nans > 0:
-                number_of_nans = df.isnull().sum().sum()
-                percentage_of_nans = number_of_nans / (number_of_not_nans + number_of_nans)
-                if percentage_of_nans <= NANS_THRESHOLD:
-                    dfs.append(df)
+    pdf_page = pdfplumber.load(page)
+    tables = pdf_page.pages[0].extract_tables()
+    dfs = []
+    for table in tables:
+        df = pd.DataFrame(table[1:], columns=table[0])
+        number_of_not_nans = np.sum(df.count())
+        if number_of_not_nans > 0:
+            number_of_nans = df.isnull().sum().sum()
+            percentage_of_nans = number_of_nans / (number_of_not_nans + number_of_nans)
+            if percentage_of_nans <= NANS_THRESHOLD:
+                dfs.append(df)
     return dfs
 
 
