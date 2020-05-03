@@ -18,7 +18,7 @@ interface SearchPageProps {
 }
 
 interface SearchPageState {
-  searchResponse: SearchResponse;
+  searchResponse?: SearchResponse;
   componentNames: ComponentNames;
 }
 
@@ -28,7 +28,7 @@ class SearchPage extends React.Component<SearchPageProps, SearchPageState> {
   constructor(props: SearchPageProps) {
     super(props)
     this.state = {
-      searchResponse: {},
+      searchResponse: undefined,
       componentNames: [],
     }
   }
@@ -53,8 +53,6 @@ class SearchPage extends React.Component<SearchPageProps, SearchPageState> {
       getComponentNames,
     } = this;
 
-    const components = Object.keys(searchResponse);
-
     return (
       <div className={cnSearchPage()}>
         <h4>Search for information about electronic components</h4>
@@ -64,10 +62,12 @@ class SearchPage extends React.Component<SearchPageProps, SearchPageState> {
             getComponentNames,
             componentNames,
           }}
+          className={cnSearchPage('Form')}
         />
         {
-          components.length !== 0 && <SearchResult
-              searchResponse={searchResponse}
+          searchResponse !== undefined && <SearchResult
+            searchResponse={searchResponse}
+            className={cnSearchPage('Result')}
           />
         }
       </div>

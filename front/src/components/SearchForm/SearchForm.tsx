@@ -17,6 +17,7 @@ interface SearchFormProps {
   sendData?: (searchRequest: SearchRequest) => void;
   getComponentNames?: (getComponentNamesRequest?: GetComponentNamesRequest) => void;
   componentNames?: ComponentNames;
+  className?: string;
 }
 
 const getSuggestions = (suggestions: string[], value: string) => {
@@ -48,11 +49,10 @@ const renderSuggestionsContainer = ({containerProps, children}: any) => {
 
 const SearchForm: React.FC<SearchFormProps> = (
   {
-    sendData = () => {
-    },
-    getComponentNames = () => {
-    },
+    sendData = () => {},
+    getComponentNames = () => {},
     componentNames = [],
+    className = '',
   }
 ) => {
   useEffect(
@@ -98,7 +98,7 @@ const SearchForm: React.FC<SearchFormProps> = (
   }
 
   return (
-    <Card className="SearchForm">
+    <Card className={`SearchForm ${className}`}>
       <Card.Body>
         <Form>
           <Form.Group controlId="formBasicEmail">
