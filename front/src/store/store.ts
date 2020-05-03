@@ -43,13 +43,8 @@ export const sendSearchRequest = async (searchRequest: SearchRequest): Promise<S
     )
     return await response.json();
   } catch (error) {
-    console.error(error);
-    return {
-      "NUP4114": {
-        "2": "https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114-2.pdf",
-        "3": "https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114-3.pdf"
-      }
-    }
+    console.error(error)
+    return false
   }
 }
 

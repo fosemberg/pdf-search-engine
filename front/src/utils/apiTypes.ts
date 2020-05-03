@@ -1,11 +1,15 @@
 export type RequestComponentName = string;
 export type RequestKeywords = string;
 
-export interface SearchResponse {
+interface SearchResponseSuccess {
   [key: string]: {
     [key: string]: string
   }
 }
+
+type SearchResponseError = false
+
+export type SearchResponse = SearchResponseSuccess | SearchResponseError
 
 export interface SearchRequest {
   name: RequestComponentName;
