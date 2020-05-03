@@ -4,6 +4,7 @@ import {pdfjs} from 'react-pdf';
 import {Alert} from "react-bootstrap";
 
 import {SearchResponse} from "../../utils/apiTypes";
+import Loader from "../Loader/Loader";
 
 import './SearchResult.css';
 
@@ -33,7 +34,10 @@ const SearchResult: React.FC<SearchResultProps> = (
                     key={page}
                     className='SearchResult__page'
                   >
-                    <Document file={`https://cors-anywhere.herokuapp.com/${url}`}>
+                    <Document
+                      file={`https://cors-anywhere.herokuapp.com/${url}`}
+                      loading={<Loader/>}
+                    >
                       <Page
                         pageNumber={1}
                       />
