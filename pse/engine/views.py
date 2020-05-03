@@ -17,12 +17,8 @@ def get_all(request):
     if request.method == 'GET':
         component_names_query_set = Document.objects.all().values_list('name', flat=True)
 
-        component_names = []
-        for component_name in component_names_query_set:
-            component_names.append(component_name)
-
         result = dict()
-        result['names'] = component_names
+        result['names'] = list(component_names_query_set)
 
         return JsonResponse(result, status=status.HTTP_200_OK)
 
