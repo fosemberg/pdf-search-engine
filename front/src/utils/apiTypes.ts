@@ -17,7 +17,7 @@ export interface SearchRequest {
 }
 
 export interface FileUploadRequest {
-  file: Blob;
+  file: File;
   filename: string;
 }
 

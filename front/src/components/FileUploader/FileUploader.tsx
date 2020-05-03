@@ -6,7 +6,7 @@ import {cn} from "@bem-react/classname";
 import './FileUploader.css';
 
 interface FileUploaderProps {
-  setFile?: (file: Blob) => void;
+  onUploadFile?: (file: File) => void;
   isSuccessLoad?: boolean;
 }
 
@@ -14,13 +14,13 @@ const cnFileUploader = cn('FileUploader');
 
 const FileUploader: React.FC<FileUploaderProps> = (
   {
-    setFile= () => {},
+    onUploadFile= () => {},
     isSuccessLoad,
   }
 ) => {
   const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file: Blob) => {
-      setFile(file);
+    acceptedFiles.forEach((file: File) => {
+      onUploadFile(file);
       const reader = new FileReader()
 
       reader.onabort = () => console.log('file reading was aborted')

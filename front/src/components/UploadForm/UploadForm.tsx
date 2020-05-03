@@ -24,7 +24,7 @@ const UploadForm: React.FC<UploadFormProps> = (
   const [filename, setFilename] = useState<string>('');
   const onChangeFilename = (e: React.ChangeEvent<HTMLInputElement>) => setFilename(e.currentTarget.value);
 
-  const [file, setFile] = useState<Blob | undefined>();
+  const [file, setFile] = useState<File | undefined>();
 
   const [isSuccessLoad, setIsSuccessLoad] = useState<boolean | undefined>();
 
@@ -40,6 +40,11 @@ const UploadForm: React.FC<UploadFormProps> = (
     clearData();
   };
 
+  const onUploadFile = (file: File) => {
+    !filename && file.name && setFilename(file.name)
+    setFile(file)
+  }
+
   return (
     <Card className="UploadForm">
       <Card.Body>
@@ -53,7 +58,7 @@ const UploadForm: React.FC<UploadFormProps> = (
               placeholder="file name"
             />
           </Form.Group>
-          <FileUploader {...{setFile, isSuccessLoad}} />
+          <FileUploader {...{onUploadFile, isSuccessLoad}} />
           <Button
             onClick={onClickSubmit}
             className={cnUploadForm('Submit')}

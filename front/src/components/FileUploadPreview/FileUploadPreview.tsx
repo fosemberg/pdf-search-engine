@@ -2,10 +2,12 @@ import React from 'react'
 import {Document, Page} from "react-pdf";
 import {cn} from "@bem-react/classname";
 
+import Loader from "../Loader/Loader";
+
 import './FileUploadPreview.css'
 
 interface FileUploadPreviewProps {
-  file: Blob;
+  file: File;
   setIsSuccessLoad: (isSuccessLoad: boolean) => void;
 }
 
@@ -23,6 +25,7 @@ const FileUploadPreview: React.FC<FileUploadPreviewProps> = (
         file={file}
         onLoadSuccess={() => setIsSuccessLoad(true)}
         onLoadError={() => setIsSuccessLoad(false)}
+        loading={<Loader/>}
       >
         <Page pageNumber={1}/>
       </Document>
