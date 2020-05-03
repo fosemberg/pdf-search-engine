@@ -10,19 +10,9 @@ interface UploadPageProps {
   sendData: (fileUploadRequest: FileUploadRequest) => Promise<FileUploadResponse>;
 }
 
-interface UploadPageState {
-  fileUploadResponse?: FileUploadResponse;
-}
-
 const cnBuildPage = cn('UploadPage');
 
-class UploadPage extends React.Component<UploadPageProps, UploadPageState> {
-  constructor(props: UploadPageProps) {
-    super(props);
-    this.state = {
-      fileUploadResponse: undefined
-    }
-  }
+class UploadPage extends React.Component<UploadPageProps> {
 
   render() {
     const {
