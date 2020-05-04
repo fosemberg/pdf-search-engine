@@ -32,3 +32,5 @@ pandas
 openpyxl
 numpy
 requests
+opencv-python==4.2.0.34
+Wand==0.5.9

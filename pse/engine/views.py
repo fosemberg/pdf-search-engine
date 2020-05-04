@@ -1,5 +1,3 @@
-import os
-
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from engine.models import Document, Page
@@ -11,6 +9,7 @@ import re
 from pse.utils import pdf_parser
 from utils import storage_upload
 from pse.utils import table_utils
+from pse.utils import image_utils
 
 
 @csrf_exempt
@@ -90,6 +89,7 @@ def upload(request):
     if request.method == 'POST':
         pdf_file = request.FILES['file']
         document_name = request.POST['filename']
+        image_urls = image_utils.extract_images(pdf_file)
         pdf_pages = pdf_parser.split_file_to_pages(pdf_file)
         pages = []
         for i in range(len(pdf_pages)):
