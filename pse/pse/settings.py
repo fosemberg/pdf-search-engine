@@ -37,6 +37,8 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
     'engine.apps.EngineConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -107,6 +109,12 @@ DATABASES = {
             'host': 'mongodb://user:password@mongodb/test?retryWrites=true&w=majority',
         }
     }
+}
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'elasticsearch:9200'
+    },
 }
 
 

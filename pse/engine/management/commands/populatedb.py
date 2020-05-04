@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from engine.models import Page, Document
+from engine.models import Page, Document, ElasticPage
 
 
 class Command(BaseCommand):
@@ -16,6 +16,9 @@ class Command(BaseCommand):
             'https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114-7.pdf'
         ]
         pages = []
+        elasticPages = []
+
+        d = Document(name='NUP4114', url='https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114.pdf')
         for i in range(7):
             text = ''
             with open(f'./engine/management/commands/resourses/NUP4114/NUP4114-{i}-text.txt') as f:
@@ -31,5 +34,15 @@ class Command(BaseCommand):
                 text=text,
                 vision=vision,
                 tables=[]))
-        d = Document(name='NUP4114', url='https://github.com/antosha417/test_temp/raw/master/NUP4114/NUP4114.pdf', pages=pages)
+            
+            elasticPages.append(ElasticPage(
+                name=f'NUP4114-{i+1}', 
+                url=urls[i], num=i+1, 
+                doc_name='NUP4114', 
+                document=d, 
+                text=text
+            ))
+        d.pages = pages
         d.save()
+        for page in elasticPages:
+            page.save()

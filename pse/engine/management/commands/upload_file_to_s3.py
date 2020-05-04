@@ -6,8 +6,8 @@ class Command(BaseCommand):
     help = 'upload pdf to s3'  
     
     def add_arguments(self, parser):
-        parser.add_argument('-f')
+        parser.add_argument('--file')
 
 
     def handle(self, *args, **options):
-        print(storage_upload.file2url(options['f'], f'prefix_{options["f"]}'))
+        print(storage_upload.file2url(options['file'], options['file']))
