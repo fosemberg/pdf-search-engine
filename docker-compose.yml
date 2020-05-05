@@ -28,6 +28,7 @@ services:
       - .:/code
     depends_on:
       - mongodb
+      - elasticsearch
     
   mongodb:
     container_name: mongo

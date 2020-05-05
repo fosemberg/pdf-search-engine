@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 
 from .models import Document, Page, ElasticPage
-from .utils import pdf_parser, search, table_utils, storage_upload
+from .utils import pdf_parser, search_utils, table_utils, storage_upload
 
 @csrf_exempt
 def get_all(request):
@@ -30,9 +30,12 @@ def search(request):
     query = data['keywords']
 
     if data.get('advanced'):
-        responce = search.elastic_search(query)
+        print('advanced search')
+        responce = search_utils.elastic_search(name, query)
     else: 
-        responce = search.slow_search(query)
+        print('regular search')
+        responce = search_utils.slow_search(name, query)
+    print('search responce', responce)
 
     return JsonResponse(responce, status=status.HTTP_200_OK)
 
@@ -42,7 +45,7 @@ def upload(request):
         pdf_file = request.FILES['file']
         document_name = request.POST['filename']
         pdf_pages = pdf_parser.split_file_to_pages(pdf_file)
-        document = Document(name=document_name, url=document_url)
+        document = Document(name=document_name, url="")
         pages = []
         elastic_pages = []
         for i in range(len(pdf_pages)):
@@ -78,8 +81,12 @@ def upload(request):
 
         # saving document to mongodb and elastic search
         document.pages = pages
+        document.url = document_url
+        print(f'saving pages {pages}')
         document.save()
+        print(f'saving elastic-pages {elastic_pages}')
         for page in elastic_pages:
+            print(f'saving elastic-page {page}')
             page.save()
         return HttpResponse(status=status.HTTP_201_CREATED)
 

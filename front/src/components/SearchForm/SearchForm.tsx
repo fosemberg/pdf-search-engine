@@ -1,11 +1,12 @@
 import * as React from 'react';
 import {ComponentElement, useEffect, useState} from "react";
-import {Button, Card, Form} from "react-bootstrap";
+import {Button, Card, Form, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Autosuggest from 'react-autosuggest';
 
 import {
   RequestKeywords,
   RequestComponentName,
+  RequestAdvancedSearch,
   SearchRequest,
   GetComponentNamesRequest,
   ComponentNames
@@ -70,6 +71,10 @@ const SearchForm: React.FC<SearchFormProps> = (
   const [keywords, setKeywords] = useState<RequestKeywords>('');
   const onChangeKeywords = (e: React.ChangeEvent<HTMLInputElement>) => setKeywords(e.currentTarget.value);
 
+  const [advancedSearch, setAdvancedSearch] = useState<RequestAdvancedSearch>(false)
+  const onChangeAdvancedSearch = (e: React.MouseEvent<HTMLInputElement>) => setAdvancedSearch(e.currentTarget.checked)
+
+
   const clearData = () => {
     setComponentName('');
     setKeywords('');
@@ -77,7 +82,7 @@ const SearchForm: React.FC<SearchFormProps> = (
 
   const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    sendData({name: componentName, keywords});
+    sendData({name: componentName, keywords, advanced: advancedSearch});
     clearData();
   };
 
@@ -95,7 +100,9 @@ const SearchForm: React.FC<SearchFormProps> = (
     type: "text",
     placeholder: "component name",
     className: 'form-control'
-  }
+  };
+ 
+
 
   return (
     <Card className={`SearchForm ${className}`}>
@@ -124,6 +131,7 @@ const SearchForm: React.FC<SearchFormProps> = (
             />
           </Form.Group>
 
+          <div className='search-and-switch'>
           <Button
             onClick={onClickSubmit}
             variant="primary"
@@ -131,6 +139,22 @@ const SearchForm: React.FC<SearchFormProps> = (
           >
             Search
           </Button>
+          <OverlayTrigger
+            placement='bottom' 
+            key='bottom'
+  overlay={<Tooltip id='Switch-tooltip'>Enabels specific sintax: breakets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong sintax.</strong></Tooltip>}>
+            <Form.Group>
+              <Form.Check 
+                type='switch'
+                id="switch"
+                label="Advanced Search"
+                onClick={onChangeAdvancedSearch}
+                checked={advancedSearch}
+              >
+              </Form.Check>
+            </Form.Group>
+          </OverlayTrigger>
+          </div>
         </Form>
       </Card.Body>
     </Card>
