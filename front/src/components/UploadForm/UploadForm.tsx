@@ -68,7 +68,7 @@ const UploadForm: React.FC<UploadFormProps> = (
   const onUploadFile = (file: File) => {
     setUploadStatus(UploadStatus.uploading)
     setSendStatus(SendStatus.init)
-    !filename && file.name && setFilename(file.name)
+    !filename && file.name && setFilename(file.name.replace('.pdf', ''))
     setFile(file)
   }
 

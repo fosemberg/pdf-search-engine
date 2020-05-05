@@ -76,7 +76,7 @@ def upload(request):
             )
 
         # saving document to storage
-        document_url = storage_upload.fileobj2url(pdf_file, document_name)
+        document_url = storage_upload.fileobj2url(pdf_file, f'{document_name}.pdf')
         if document_url['error'] is not None:
             return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
