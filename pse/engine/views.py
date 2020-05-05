@@ -70,6 +70,7 @@ def upload(request):
                     num=i+1,
                     text=text,
                     document=document,
+                    name=f'document_name-{i+1}',
                     doc_name=document_name
                 )
             )
