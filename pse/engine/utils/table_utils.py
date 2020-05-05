@@ -4,7 +4,7 @@ import io
 import numpy as np
 from django.http import HttpResponse
 from rest_framework import status
-from utils import storage_upload
+from engine.utils import storage_upload
 from engine.models import Table
 
 

@@ -42,14 +42,15 @@ def upload(request):
         pdf_file = request.FILES['file']
         document_name = request.POST['filename']
         pdf_pages = pdf_parser.split_file_to_pages(pdf_file)
-        document = Document(name=document_name, url=document_url)
         pages = []
         elastic_pages = []
         for i in range(len(pdf_pages)):
             vision, text = pdf_parser.parse_pdf(pdf_pages[i])
             # line below closes page
             tables = table_utils.save_tables_from_page(pdf_pages[i], i)
-            url = storage_upload.fileobj2url(pdf_pages[i], '{}_page_{}'.format(document_name, i))
+            page_name = '{}_page_{}'.format(document_name, i)
+            url = storage_upload.fileobj2url(pdf_pages[i], page_name)
+            document = Document(name=page_name, url=url)
             if url['error'] is not None:
                 return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             pages.append(
@@ -70,11 +71,6 @@ def upload(request):
                     doc_name=document_name
                 )
             )
-
-        # saving document to storage
-        document_url = storage_upload.fileobj2url(pdf_file, document_name)
-        if document_url['error'] is not None:
-            return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         # saving document to mongodb and elastic search
         document.pages = pages
