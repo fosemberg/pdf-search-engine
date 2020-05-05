@@ -52,7 +52,7 @@ def upload(request):
             vision, text = pdf_parser.parse_pdf(pdf_pages[i])
             # line below closes page
             tables = table_utils.save_tables_from_page(pdf_pages[i], i)
-            url = storage_upload.fileobj2url(pdf_pages[i], '{}_page_{}'.format(document_name, i))
+            url = storage_upload.fileobj2url(pdf_pages[i], '{}_page_{}.pdf'.format(document_name, i))
             if url['error'] is not None:
                 return HttpResponse('Unable to load the file', status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             pages.append(
