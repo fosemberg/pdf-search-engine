@@ -1,0 +1,1 @@
+ Figure 4. STEVAL-SPIN3204 schematic - current and voltage led back, and BEMF sensing circuits R12 75K J11 811300311121 121 22K sak C15 1K R16 15K TP15 TPSMD-1MM DC Camp R21 15K Bensen) 24K 100pF voo voo D10 R47 TFEMD-1M: da auru) 3 1 10K TP12 TPEIMD-114 012 22K D13 с43 22: 22K D14 4.7nF VBU3 Feedback 8P10_BBMF ar
