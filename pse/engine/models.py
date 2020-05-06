@@ -19,6 +19,23 @@ class TableForm(forms.ModelForm):
         fields = '__all__'
 
 
+class Image(models.Model):
+    url = models.URLField()
+    num = models.IntegerField()
+
+    def __str__(self):
+        return f'<Image {self.num}>'
+
+    class Meta:
+        abstract = True
+
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = '__all__'
+
+
 class Page(models.Model):
     url = models.URLField()
     num = models.IntegerField()
@@ -27,6 +44,10 @@ class Page(models.Model):
     tables = models.ArrayField(
         model_container=Table,
         model_form_class=TableForm
+    )
+    images = models.ArrayField(
+        model_container=Image,
+        model_form_class=ImageForm
     )
 
     def __str__(self):

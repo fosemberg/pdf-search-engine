@@ -3,9 +3,10 @@ import cv2
 import numpy as np
 from django.http import HttpResponse
 from rest_framework import status
-from wand.image import Image, Color
+import wand.image as wi
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from utils import storage_upload
+from engine.models import Image
 
 
 RESOLUTION = 150
@@ -19,7 +20,7 @@ def zero_runs(a):
 
 
 def extract_images(pdf_file):
-    urls = dict()
+    images = dict()
     infile = PdfFileReader(pdf_file)
     for i in range(infile.getNumPages()):
         output_pdf = PdfFileWriter()
@@ -28,8 +29,8 @@ def extract_images(pdf_file):
         tem_pdf_path = os.path.join(workpath, 'temp_pdf.pdf')
         with open(tem_pdf_path, "wb") as out_file:
             output_pdf.write(out_file)
-        with Image(filename=os.path.join(workpath, 'temp_pdf.pdf'), resolution=RESOLUTION) as img:
-            with Image(width=img.width, height=img.height, background=Color("white")) as bg:
+        with wi.Image(filename=os.path.join(workpath, 'temp_pdf.pdf'), resolution=RESOLUTION) as img:
+            with wi.Image(width=img.width, height=img.height, background=wi.Color("white")) as bg:
                 bg.composite(img, 0, 0)
                 bg.save(filename="tmp.png")
 
@@ -41,7 +42,8 @@ def extract_images(pdf_file):
         row_gaps = zero_runs(row_means)
         row_cutpoints = (row_gaps[:, 0] + row_gaps[:, 1] - 1) // 2
 
-        urls[i] = []
+        images[i] = []
+        img_num = 0
         for n, (y1, y2) in enumerate(zip(row_cutpoints, row_cutpoints[1:])):
             y1 = int(y1)
             y2 = int(y2)
@@ -55,7 +57,6 @@ def extract_images(pdf_file):
 
             filtered_cutpoints = column_cutpoints[column_gap_sizes > 15]
 
-            img_num = 0
             for x1, x2 in zip(filtered_cutpoints, filtered_cutpoints[1:]):
 
                 # METRICS
@@ -66,15 +67,15 @@ def extract_images(pdf_file):
 
                 if mean / max < 0.15 or mean > 120:
                     c = img.copy()
-                    name = "img{}{}_at_page{}.png".format(img_num, n, i)
+                    name = "img{}_at_page{}.png".format(img_num, i)
                     cv2.imwrite(name, c[y1:y2, x1:x2])
                     storage_response = storage_upload.file2url(name, name)
                     if storage_response['error'] is not None:
                         return HttpResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-                    urls[i].append(storage_response['url'])
+                    images[i].append(Image(url=storage_response['url'], num=img_num))
                     os.remove(name)
                     img_num += 1
 
         os.remove('tmp.png')
         os.remove(tem_pdf_path)
-        return urls
+    return images

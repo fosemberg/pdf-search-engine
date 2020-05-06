@@ -79,7 +79,16 @@ def slow_search(request):
             for page in pages:
                 has_all_words = all(p.search(page.text) for p in patterns)
                 if has_all_words:
-                    found_in_document[page.num] = page.url
+
+                    found_in_document[page.num] = dict()
+                    found_in_document[page.num]['url'] = page.url
+                    found_in_document[page.num]['tables'] = dict()
+                    found_in_document[page.num]['images'] = dict()
+                    for t in page.tables:
+                        found_in_document[page.num]['tables'][t.num] = t.url
+                    for im in page.images:
+                        found_in_document[page.num]['images'][im.num] = im.url
+
             results[document.name] = found_in_document
         return JsonResponse(results, status=status.HTTP_200_OK)
 
@@ -89,7 +98,7 @@ def upload(request):
     if request.method == 'POST':
         pdf_file = request.FILES['file']
         document_name = request.POST['filename']
-        image_urls = image_utils.extract_images(pdf_file)
+        images = image_utils.extract_images(pdf_file)
         pdf_pages = pdf_parser.split_file_to_pages(pdf_file)
         pages = []
         for i in range(len(pdf_pages)):
@@ -105,7 +114,8 @@ def upload(request):
                     num=i + 1,
                     text=text,
                     vision=vision,
-                    tables=tables
+                    tables=tables,
+                    images=images[i]
                 )
             )
 
