@@ -1,5 +1,6 @@
 import base64
 import json
+import logging
 
 import requests
 from PyPDF2 import PdfFileWriter, PdfFileReader
@@ -7,6 +8,7 @@ import io
 
 from pse.settings import API_KEY, FOLDER_ID
 
+logger = logging.getLogger(__name__)
 
 def split_file_to_pages(file):
     """
@@ -14,6 +16,7 @@ def split_file_to_pages(file):
     :param file: A PDF file object
     :return:
     """
+    logger.info('splitting file to pages')
     infile = PdfFileReader(file)
     pages = []
     for i in range(infile.getNumPages()):
@@ -24,6 +27,7 @@ def split_file_to_pages(file):
         outfile.write(tmp)
         tmp.seek(0)
         pages.append(tmp)
+    logger.info(f'found {len(pages)} pages: {pages}')
     return pages
 
 
@@ -69,7 +73,7 @@ def encode_file(file):
     """
     Prepare  the file content to be passed to Yandex.Cloud API.
     """
-    file_content = file.getvalue()
+    file_content = file.read()
     return base64.b64encode(file_content).decode("utf-8")
 
 
