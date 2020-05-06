@@ -1,7 +1,6 @@
 import os
 import uuid
 import logging
-from itertools import tee
 
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -9,7 +8,7 @@ from rest_framework import status
 from rest_framework.parsers import JSONParser
 
 from .models import Document, Page, ElasticPage
-from .utils import pdf_parser, search_utils, table_utils, storage_upload
+from .utils import pdf_parser, search_utils, table_utils, storage_upload, image_utils
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +58,9 @@ def upload(request):
         for chunk in pdf_file.chunks():
             destination.write(chunk)
 
+    logger.info(f'getting images from file')
+    with open(pdf_tmp_file_name, 'rb') as f:
+        images = image_utils.extract_images(f)
 
     logger.info(f'saving whole file to s3')
     with open(pdf_tmp_file_name, 'rb') as f:
@@ -96,12 +98,12 @@ def upload(request):
         with open(tmp_page_names[i], 'rb') as pf:
             logger.info('uploading page to yandex vision')
             vision, text = pdf_parser.parse_pdf(pf)
-        # with open(tmp_page_names[i], 'rb') as pf:
-        #     # TODO need to save in format: 'doc_name-page_num-table-num'
-        #     tables = table_utils.save_tables_from_page(pf, i)
+        with open(tmp_page_names[i], 'rb') as pf:
+            # TODO need to save in format: 'doc_name-page_num-table-num'
+            tables = table_utils.save_tables_from_page(pf, i)
         tables = []
         pages.append(
-            Page(url=page_urls[i], num=i+1, text=text, vision=vision, tables=tables)
+            Page(url=page_urls[i], num=i+1, text=text, vision=vision, tables=tables, images=images[i])
         )
         elastic_pages.append(
             ElasticPage(url=page_urls[i], num=i+1, text=text, document=document, name=f'document_name-{i+1}', doc_name=document_name)

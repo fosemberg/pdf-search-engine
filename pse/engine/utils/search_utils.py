@@ -21,13 +21,9 @@ def elastic_search(doc_name, query):
 
 def slow_search(doc_name, query):
     try:
-        keywords = query.split() 
-        print(keywords)
+        keywords = query.split()
         patterns = [re.compile(r'\b{}\b'.format(word), re.IGNORECASE) for word in keywords]
-        print(patterns)
         documents = Document.objects.filter(name=doc_name)
-        print(documents)
-
         results = dict()
         for document in documents:
             found_in_document = dict()
@@ -35,8 +31,16 @@ def slow_search(doc_name, query):
             for page in pages:
                 has_all_words = all(p.search(page.text) for p in patterns)
                 if has_all_words:
-                    found_in_document[page.num] = page.url
+
+                    found_in_document[page.num] = dict()
+                    found_in_document[page.num]['url'] = page.url
+                    found_in_document[page.num]['tables'] = dict()
+                    found_in_document[page.num]['images'] = dict()
+                    for t in page.tables:
+                        found_in_document[page.num]['tables'][t.num] = t.url
+                    for im in page.images:
+                        found_in_document[page.num]['images'][im.num] = im.url
+
             results[document.name] = found_in_document
-        return results
     except Exception as e:
         print(e)

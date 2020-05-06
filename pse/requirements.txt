@@ -52,3 +52,14 @@ unicodecsv==0.14.1
 urllib3==1.25.9
 Wand==0.5.9
 wcwidth==0.1.9
+djangorestframework==3.10.2
+django-cors-headers==3.2.1
+boto3==1.12.48
+botocore==1.15.48
+pdfplumber
+pandas
+openpyxl
+numpy
+requests
+opencv-python==4.2.0.34
+Wand==0.5.9
