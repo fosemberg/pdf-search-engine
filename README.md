@@ -63,7 +63,7 @@ The request body is shown below:
 The server side is implemented using [Django](https://www.djangoproject.com/ "Django project home page"), a Python Web framework. Backend architecture could be divided into built-in Django REST Router, views to handle requests from frontend components, and object models connected to the databases.
 
 ### Upload view
-Receives a document from the [Upload component](#upload-component), splits the document into pages, and sends the document along with each of its pages to [Yandex.Vision](#yandex.vision) adapter.
+Receives a document from the [Upload component](#upload-component), splits the document into pages, and sends the document along with each of its pages to [Yandex.Vision](#yandexvision) adapter.
 
 The adapter returns parsed data for each passed document. The data about the document is then stored using the [Document model](#document-model) and the data about each of its pages and tables is stored using the [Page model](#page-model) and the [Table model](#table-model), respectively.
 
