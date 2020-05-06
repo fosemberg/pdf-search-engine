@@ -1,12 +1,13 @@
 import React from 'react';
 import {Document, Page} from 'react-pdf';
 import {pdfjs} from 'react-pdf';
-import {Alert} from "react-bootstrap";
+import {Alert, Image} from "react-bootstrap";
 
 import {SearchResponse} from "../../utils/apiTypes";
 import Loader from "../Loader/Loader";
 
 import './SearchResult.css';
+import {CardText} from "react-bootstrap/Card";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -29,20 +30,18 @@ const SearchResult: React.FC<SearchResultProps> = (
             componentName => (
               Object.entries(searchResponse[componentName])
                 .sort(([page1, url1], [page2, url2]) => +page1 - +page2)
-                .map(([page, url]) => (
-                  <div
-                    key={page}
-                    className='SearchResult__page'
-                  >
-                    <Document
-                      file={url}
-                      loading={<Loader/>}
-                    >
-                      <Page
-                        pageNumber={1}
-                      />
-                    </Document>
-                    <div>{page}</div>
+                .map(([page, content]) => (
+                  <div className="container">
+                    <h5>Page #{page}</h5>
+                    {Object.entries(content['images']).map(
+                      ([image_num, image_url]) =>
+                        <div
+                          key={page}
+                          className='SearchResult__page'
+                        >
+                            <Image src={image_url}/>
+                        </div>
+                    )}
                   </div>
                 ))
             )
