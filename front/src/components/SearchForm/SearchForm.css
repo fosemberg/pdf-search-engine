@@ -14,14 +14,22 @@
 
 .react-autosuggest__suggestion {
   cursor: pointer;
-  padding: 6px 12px;
+  padding: 6px;
 }
 
 .react-autosuggest__suggestion--highlighted {
   background-color: #f8f9fa;
 }
 
-.search-and-switch{
+.SearchForm-ComponentName[class] {
+  padding: 6px;
+}
+
+.SearchForm-Query[class] {
+  padding: 6px;
+}
+
+.search-and-switch {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;

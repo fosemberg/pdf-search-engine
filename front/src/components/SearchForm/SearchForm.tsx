@@ -72,7 +72,8 @@ const SearchForm: React.FC<SearchFormProps> = (
   const [suggestions, setsuggestions] = useState<string[]>([]);
 
   const [keywords, setKeywords] = useState<RequestKeywords>('');
-  const onChangeKeywords = (keywords: string) => setKeywords(keywords);
+  const onChangeSqlKeywords = (keywords: string) => setKeywords(keywords);
+  const onChangePlainKeywords = (e: React.ChangeEvent<HTMLInputElement>) => setKeywords(e.currentTarget.value);
 
   const [advancedSearch, setAdvancedSearch] = useState<RequestAdvancedSearch>(false)
   const onChangeAdvancedSearch = (e: React.MouseEvent<HTMLInputElement>) => setAdvancedSearch(e.currentTarget.checked)
@@ -102,7 +103,7 @@ const SearchForm: React.FC<SearchFormProps> = (
     onChange: onChangeComponentName,
     type: "text",
     placeholder: "component name",
-    className: 'form-control'
+    className: 'form-control SearchForm-ComponentName'
   };
 
   const codeString = '(me AND you) OR somebody';
@@ -126,11 +127,22 @@ const SearchForm: React.FC<SearchFormProps> = (
 
           <Form.Group controlId="formBasicEmail">
             <Form.Label>query</Form.Label>
-            <InputWithSqlHighlight
-              value={keywords}
-              onChange={onChangeKeywords}
-              placeholder="query"
-            />
+            {
+              advancedSearch
+              ? <InputWithSqlHighlight
+                  value={keywords}
+                  onChange={onChangeSqlKeywords}
+                  placeholder="query"
+                />
+              : <Form.Control
+                  value={keywords}
+                  onChange={onChangePlainKeywords}
+                  placeholder="query"
+                  type="text"
+                  className="SearchForm-Query"
+                />
+            }
+
           </Form.Group>
 
           <div className='search-and-switch'>
