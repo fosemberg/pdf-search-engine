@@ -20,3 +20,10 @@
 .react-autosuggest__suggestion--highlighted {
   background-color: #f8f9fa;
 }
+
+.search-and-switch{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}

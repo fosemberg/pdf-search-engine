@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from rest_framework import status
 import wand.image as wi
 from PyPDF2 import PdfFileReader, PdfFileWriter
-from utils import storage_upload
+from . import storage_upload
 from engine.models import Image
 
 

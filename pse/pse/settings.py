@@ -37,6 +37,8 @@ ALLOWED_HOSTS = [
 INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
+    'django_elasticsearch_dsl',
+    'django_elasticsearch_dsl_drf',
     'engine.apps.EngineConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -109,6 +111,12 @@ DATABASES = {
     }
 }
 
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'elasticsearch:9200'
+    },
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -154,3 +162,18 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Yandex.Cloud API token for Vision
 API_KEY = 'AQVNw0SE3iQbWpYYB7Rm4rGVyCD6U0SHjujrrXUe'
 FOLDER_ID = 'b1gfmvlr271su6a08u5a'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}
+FILE_UPLOAD_MAX_MEMORY_SIZE = 1

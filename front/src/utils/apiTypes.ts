@@ -1,5 +1,6 @@
 export type RequestComponentName = string;
 export type RequestKeywords = string;
+export type RequestAdvancedSearch = boolean;
 
 interface SearchResponseSuccess {
   [key: string]: {
@@ -14,6 +15,7 @@ export type SearchResponse = SearchResponseSuccess | SearchResponseError
 export interface SearchRequest {
   name: RequestComponentName;
   keywords: RequestKeywords;
+  advanced?: RequestAdvancedSearch;
 }
 
 export interface FileUploadRequest {

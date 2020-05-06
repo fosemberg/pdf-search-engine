@@ -4,19 +4,19 @@ import io
 import numpy as np
 from django.http import HttpResponse
 from rest_framework import status
-from utils import storage_upload
+from . import storage_upload
 from engine.models import Table
 
 
 NANS_THRESHOLD = 0.75
 
 
-def save_tables_from_page(page, page_number):
+def save_tables_from_page(page, page_name):
     dfs = extract_table_to_dfs(page)
     table_number = 0
     tables = []
     for df in dfs:
-        table_url = save_df_as_csv_to_storage(df, 'page_{}_table_{}.csv'.format(page_number, table_number))
+        table_url = save_df_as_csv_to_storage(df, f'{page_name}_table_{table_number}.csv')
         if table_url['error'] is not None:
             return HttpResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         table_model = Table(url=table_url['url'], num=table_number)

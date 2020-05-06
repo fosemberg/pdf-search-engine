@@ -7,7 +7,7 @@ class Table(models.Model):
     num = models.IntegerField()
 
     def __str__(self):
-        return f'<Table {self.num}>'
+        return f'<{self.num}>'
 
     class Meta:
         abstract = True
@@ -51,7 +51,7 @@ class Page(models.Model):
     )
 
     def __str__(self):
-        return f'<Page {self.num}>'
+        return f'<{self.num}>'
     
     class Meta:
         abstract = True
@@ -64,7 +64,7 @@ class PageForm(forms.ModelForm):
 
 
 class Document(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, primary_key=True)
     url = models.URLField()
     pages = models.ArrayField(
        model_container=Page,
@@ -73,4 +73,16 @@ class Document(models.Model):
     objects = models.DjongoManager()
     
     def __str__(self):
-        return f'<Document {self.name}>'
+        return f'<{self.name}>'
+
+
+class ElasticPage(models.Model):
+    name = models.CharField(max_length=210, primary_key=True)
+    url = models.URLField()
+    num = models.IntegerField()
+    text = models.TextField()
+    doc_name = models.CharField(max_length=200)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'<{self.doc_name}-{self.num} {self.pk}>'

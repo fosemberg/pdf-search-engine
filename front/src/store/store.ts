@@ -31,7 +31,7 @@ export const sendGetComponentNamesRequest = async (getComponentNamesRequest: Get
 }
 
 export const sendSearchRequest = async (searchRequest: SearchRequest): Promise<SearchResponse> => {
-  const endpoint = 'slow-search';
+  const endpoint = 'search';
   const url = `${hostUrl}/${endpoint}`;
   try {
     const response = await fetch(
