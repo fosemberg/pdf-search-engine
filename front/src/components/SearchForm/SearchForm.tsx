@@ -142,7 +142,7 @@ const SearchForm: React.FC<SearchFormProps> = (
           <OverlayTrigger
             placement='bottom' 
             key='bottom'
-  overlay={<Tooltip id='Switch-tooltip'>Enabels specific sintax: breakets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong sintax.</strong></Tooltip>}>
+  overlay={<Tooltip id='Switch-tooltip'>Enables specific syntax: brackets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong syntax.</strong></Tooltip>}>
             <Form.Group>
               <Form.Check 
                 type='switch'
