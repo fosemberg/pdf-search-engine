@@ -42,5 +42,6 @@ def slow_search(doc_name, query):
                         found_in_document[page.num]['images'][im.num] = im.url
 
             results[document.name] = found_in_document
+        return results
     except Exception as e:
         print(e)
