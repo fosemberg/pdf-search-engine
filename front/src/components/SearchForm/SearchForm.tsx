@@ -80,8 +80,8 @@ const SearchForm: React.FC<SearchFormProps> = (
 
 
   const clearData = () => {
-    setComponentName('');
-    setKeywords('');
+    // setComponentName('');
+    // setKeywords('');
   };
 
   const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
