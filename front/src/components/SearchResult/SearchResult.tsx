@@ -2,6 +2,8 @@ import React from 'react';
 import {Document, Page} from 'react-pdf';
 import {pdfjs} from 'react-pdf';
 import {Alert, Image} from "react-bootstrap";
+// @ts-ignore
+import { CsvToHtmlTable } from 'react-csv-to-table';
 
 import {SearchResponse} from "../../utils/apiTypes";
 import Loader from "../Loader/Loader";
@@ -31,17 +33,21 @@ const SearchResult: React.FC<SearchResultProps> = (
               Object.entries(searchResponse[componentName])
                 .sort(([page1, url1], [page2, url2]) => +page1 - +page2)
                 .map(([page, content]) => (
-                  <div className="container">
-                    <h5>Page #{page}</h5>
-                    {Object.entries(content['images']).map(
-                      ([image_num, image_url]) =>
-                        <div
-                          key={page}
-                          className='SearchResult__page'
-                        >
-                            <Image src={image_url}/>
-                        </div>
-                    )}
+                  <div key={page} className="container">
+                    <h5>Page #{page}<a href={content["url"]} className="float-right">Download full page</a></h5>
+                    <div className='SearchResult__page'>
+                      {Object.entries(content['images']).map(
+                        ([image_num, image_url]) =>
+                          <Image src={image_url} fluid/>
+                      )}
+                      {Object.entries(content['tables']).map(
+                        ([table_num, table_url]) =>
+                          <CsvToHtmlTable
+                            data={table_url}
+                            csvDelimiter=","
+                          />
+                      )}
+                    </div>
                   </div>
                 ))
             )

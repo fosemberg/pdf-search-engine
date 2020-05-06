@@ -9,4 +9,5 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: var(--space-s);
+  max-width: 100%;
 }
