@@ -3,6 +3,8 @@ import {ComponentElement, useEffect, useState} from "react";
 import {Button, Card, Form, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Autosuggest from 'react-autosuggest';
 
+
+
 import {
   RequestKeywords,
   RequestComponentName,
@@ -11,6 +13,7 @@ import {
   GetComponentNamesRequest,
   ComponentNames
 } from "../../utils/apiTypes";
+import InputWithSqlHighlight from "../InputWithSqlHighlight/InputWithSqlHighlight";
 
 import './SearchForm.css';
 
@@ -69,15 +72,16 @@ const SearchForm: React.FC<SearchFormProps> = (
   const [suggestions, setsuggestions] = useState<string[]>([]);
 
   const [keywords, setKeywords] = useState<RequestKeywords>('');
-  const onChangeKeywords = (e: React.ChangeEvent<HTMLInputElement>) => setKeywords(e.currentTarget.value);
+  const onChangeSqlKeywords = (keywords: string) => setKeywords(keywords);
+  const onChangePlainKeywords = (e: React.ChangeEvent<HTMLInputElement>) => setKeywords(e.currentTarget.value);
 
   const [advancedSearch, setAdvancedSearch] = useState<RequestAdvancedSearch>(false)
   const onChangeAdvancedSearch = (e: React.MouseEvent<HTMLInputElement>) => setAdvancedSearch(e.currentTarget.checked)
 
 
   const clearData = () => {
-    setComponentName('');
-    setKeywords('');
+    // setComponentName('');
+    // setKeywords('');
   };
 
   const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -99,10 +103,10 @@ const SearchForm: React.FC<SearchFormProps> = (
     onChange: onChangeComponentName,
     type: "text",
     placeholder: "component name",
-    className: 'form-control'
+    className: 'form-control SearchForm-ComponentName'
   };
- 
 
+  const codeString = '(me AND you) OR somebody';
 
   return (
     <Card className={`SearchForm ${className}`}>
@@ -123,12 +127,22 @@ const SearchForm: React.FC<SearchFormProps> = (
 
           <Form.Group controlId="formBasicEmail">
             <Form.Label>query</Form.Label>
-            <Form.Control
-              value={keywords}
-              onChange={onChangeKeywords}
-              type="text"
-              placeholder="query"
-            />
+            {
+              advancedSearch
+              ? <InputWithSqlHighlight
+                  value={keywords}
+                  onChange={onChangeSqlKeywords}
+                  placeholder="query"
+                />
+              : <Form.Control
+                  value={keywords}
+                  onChange={onChangePlainKeywords}
+                  placeholder="query"
+                  type="text"
+                  className="SearchForm-Query"
+                />
+            }
+
           </Form.Group>
 
           <div className='search-and-switch'>
@@ -140,11 +154,11 @@ const SearchForm: React.FC<SearchFormProps> = (
             Search
           </Button>
           <OverlayTrigger
-            placement='bottom' 
+            placement='bottom'
             key='bottom'
   overlay={<Tooltip id='Switch-tooltip'>Enables specific syntax: brackets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong syntax.</strong></Tooltip>}>
             <Form.Group>
-              <Form.Check 
+              <Form.Check
                 type='switch'
                 id="switch"
                 label="Advanced Search"
