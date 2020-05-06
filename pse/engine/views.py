@@ -107,6 +107,7 @@ def upload(request):
             ElasticPage(url=page_urls[i], num=i+1, text=text, document=document, name=f'document_name-{i+1}', doc_name=document_name)
         )
 
+    # TODO simplify after splitting models
     document.pages = pages
     print(f'saving pages {pages}')
     document.save()
