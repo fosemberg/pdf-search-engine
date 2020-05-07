@@ -19,7 +19,7 @@ def zero_runs(a):
     return ranges
 
 
-def extract_images(pdf_file):
+def extract_images(document_name, pdf_file):
     images = dict()
     infile = PdfFileReader(pdf_file)
     for i in range(infile.getNumPages()):
@@ -67,7 +67,7 @@ def extract_images(pdf_file):
 
                 if mean / max < 0.15 or mean > 120:
                     c = img.copy()
-                    name = "img{}_at_page{}.png".format(img_num, i)
+                    name = "{}_page_{}_image_{}.png".format(document_name, i, img_num)
                     cv2.imwrite(name, c[y1:y2, x1:x2])
                     storage_response = storage_upload.file2url(name, name)
                     if storage_response['error'] is not None:
