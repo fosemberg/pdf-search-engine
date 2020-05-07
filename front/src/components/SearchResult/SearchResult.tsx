@@ -43,12 +43,12 @@ const SearchResult: React.FC<SearchResultProps> = (
                             className="SearchResultPageModal__page"
                           />
                         </Document>) : (
-                          <div>
+                          <>
                             {Object.entries(content['images']).map(
                               ([image_num, image_url]) =>
                                 <Image src={image_url} fluid/>
                             )}
-                          </div>)}
+                          </>)}
                     </div>
                   </div>
                 ))
