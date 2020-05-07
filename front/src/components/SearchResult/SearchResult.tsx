@@ -4,9 +4,9 @@ import {Alert, Image} from "react-bootstrap";
 
 import {SearchResponse} from "../../utils/apiTypes";
 import {SearchResultPageModal} from "../SearchResultPageModal/SearchResultPageModal";
+import Loader from "../Loader/Loader";
 
 import './SearchResult.css';
-import Loader from "../Loader/Loader";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 

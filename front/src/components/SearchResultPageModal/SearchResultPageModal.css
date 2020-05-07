@@ -1,6 +1,6 @@
-body .modal-dialog {
+body .modal-dialog[class] {
     max-width: 100%;
-    width: auto !important;
+    width: auto;
     display: inline-block;
 }
 .modal {

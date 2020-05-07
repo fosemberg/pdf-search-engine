@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-
 import {Button, Modal} from "react-bootstrap";
 import {Document, Page} from "react-pdf";
+
 import Loader from "../Loader/Loader";
 
 import './SearchResultPageModal.css';
