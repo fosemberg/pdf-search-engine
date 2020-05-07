@@ -1,15 +1,12 @@
 import React from 'react';
-import {Document, Page} from 'react-pdf';
-import {pdfjs} from 'react-pdf';
+import {Document, Page, pdfjs} from 'react-pdf';
 import {Alert, Image} from "react-bootstrap";
-// @ts-ignore
-import { CsvToHtmlTable } from 'react-csv-to-table';
 
 import {SearchResponse} from "../../utils/apiTypes";
-import Loader from "../Loader/Loader";
+import {SearchResultPageModal} from "../SearchResultPageModal/SearchResultPageModal";
 
 import './SearchResult.css';
-import {CardText} from "react-bootstrap/Card";
+import Loader from "../Loader/Loader";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -34,12 +31,24 @@ const SearchResult: React.FC<SearchResultProps> = (
                 .sort(([page1, url1], [page2, url2]) => +page1 - +page2)
                 .map(([page, content]) => (
                   <div key={page} className="container">
-                    <h5>Page #{page}<a href={content["url"]} className="float-right">Download full page</a></h5>
+                    <SearchResultPageModal url={content["url"]} show={false} title={`Page ${page}`}/>
                     <div className='SearchResult__page'>
-                      {Object.entries(content['images']).map(
-                        ([image_num, image_url]) =>
-                          <Image src={image_url} fluid/>
-                      )}
+                      {Object.keys(content['images']).length === 0 ? (
+                        <Document
+                          file={content['url']}
+                          loading={<Loader/>}
+                        >
+                          <Page
+                            pageNumber={1}
+                            className="SearchResultPageModal__page"
+                          />
+                        </Document>) : (
+                          <div>
+                            {Object.entries(content['images']).map(
+                              ([image_num, image_url]) =>
+                                <Image src={image_url} fluid/>
+                            )}
+                          </div>)}
                     </div>
                   </div>
                 ))

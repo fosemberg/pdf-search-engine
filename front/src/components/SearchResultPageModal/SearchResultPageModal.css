@@ -1,0 +1,10 @@
+body .modal-dialog {
+    max-width: 100%;
+    width: auto !important;
+    display: inline-block;
+}
+.modal {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
