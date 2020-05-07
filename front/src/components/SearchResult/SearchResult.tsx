@@ -40,13 +40,6 @@ const SearchResult: React.FC<SearchResultProps> = (
                         ([image_num, image_url]) =>
                           <Image src={image_url} fluid/>
                       )}
-                      {Object.entries(content['tables']).map(
-                        ([table_num, table_url]) =>
-                          <CsvToHtmlTable
-                            data={table_url}
-                            csvDelimiter=","
-                          />
-                      )}
                     </div>
                   </div>
                 ))
