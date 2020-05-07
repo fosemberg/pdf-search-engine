@@ -60,7 +60,7 @@ def upload(request):
 
     logger.info(f'getting images from file')
     with open(pdf_tmp_file_name, 'rb') as f:
-        images = image_utils.extract_images(f)
+        images = image_utils.extract_images(document_name, f)
 
     logger.info(f'saving whole file to s3')
     with open(pdf_tmp_file_name, 'rb') as f:
@@ -99,9 +99,7 @@ def upload(request):
             logger.info('uploading page to yandex vision')
             vision, text = pdf_parser.parse_pdf(pf)
         with open(tmp_page_names[i], 'rb') as pf:
-            # TODO need to save in format: 'doc_name-page_num-table-num'
-            tables = table_utils.save_tables_from_page(pf, i)
-        tables = []
+            tables = table_utils.save_tables_from_page(document_name, pf, i)
         pages.append(
             Page(url=page_urls[i], num=i+1, text=text, vision=vision, tables=tables, images=images[i])
         )

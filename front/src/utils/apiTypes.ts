@@ -4,7 +4,15 @@ export type RequestAdvancedSearch = boolean;
 
 interface SearchResponseSuccess {
   [key: string]: {
-    [key: string]: string
+    [key: string]: {
+      url: string,
+      tables: {
+        [key: string]: string
+      },
+      images: {
+        [key: string]: string
+      },
+    }
   }
 }
 
