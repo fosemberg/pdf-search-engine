@@ -5,7 +5,7 @@ import {Alert, Image} from "react-bootstrap";
 // @ts-ignore
 import { CsvToHtmlTable } from 'react-csv-to-table';
 
-import {SearchRequest, SearchResponse} from "../../utils/apiTypes";
+import {SearchResponse} from "../../utils/apiTypes";
 import Loader from "../Loader/Loader";
 
 import './SearchResult.css';
@@ -16,25 +16,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 interface SearchResultProps {
   searchResponse?: SearchResponse;
   className?: string;
-}
-
-// @ts-ignore
-export const getCsvData = async (url: string): Promise => {
-  var reader = new FileReader();
-  try {
-    const response = await fetch(
-      `${url}`,
-      {
-        method: 'GET',
-      }
-    )
-    let blob = await response.blob()
-    reader.readAsText(blob);
-    return reader.result;
-  } catch (error) {
-    console.error(error)
-    return false
-  }
 }
 
 const SearchResult: React.FC<SearchResultProps> = (
@@ -62,7 +43,7 @@ const SearchResult: React.FC<SearchResultProps> = (
                       {Object.entries(content['tables']).map(
                         ([table_num, table_url]) =>
                           <CsvToHtmlTable
-                            data={getCsvData(table_url)}
+                            data={table_url}
                             csvDelimiter=","
                           />
                       )}
