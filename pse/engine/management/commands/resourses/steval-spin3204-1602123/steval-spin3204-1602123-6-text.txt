@@ -1,0 +1,1 @@
+ 57 STEVAL-SPIN3204 Revision history Table 1. Document revision history Date Version Changes 06-May-2019 Initial release. DB3914 - Rev 1 page 7/8
