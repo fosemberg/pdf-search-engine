@@ -2,8 +2,7 @@ import * as React from 'react';
 import {ComponentElement, useEffect, useState} from "react";
 import {Button, Card, Form, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Autosuggest from 'react-autosuggest';
-
-
+import {cn} from "@bem-react/classname";
 
 import {
   RequestKeywords,
@@ -14,8 +13,11 @@ import {
   ComponentNames
 } from "../../utils/apiTypes";
 import InputWithSqlHighlight from "../InputWithSqlHighlight/InputWithSqlHighlight";
+import ClearButton from "../ClearButton/ClearButton";
 
 import './SearchForm.css';
+
+const cnSearchForm = cn('SearchForm');
 
 interface SearchFormProps {
   sendData?: (searchRequest: SearchRequest) => void;
@@ -76,18 +78,19 @@ const SearchForm: React.FC<SearchFormProps> = (
   const onChangePlainKeywords = (e: React.ChangeEvent<HTMLInputElement>) => setKeywords(e.currentTarget.value);
 
   const [advancedSearch, setAdvancedSearch] = useState<RequestAdvancedSearch>(false)
-  const onChangeAdvancedSearch = (e: React.MouseEvent<HTMLInputElement>) => setAdvancedSearch(e.currentTarget.checked)
+  const onChangeAdvancedSearch = (e: React.ChangeEvent<HTMLInputElement>) => setAdvancedSearch(e.currentTarget.checked)
 
+  const clearComponentName = () => {
+    setComponentName('');
+  };
 
-  const clearData = () => {
-    // setComponentName('');
-    // setKeywords('');
+  const clearKeywords = () => {
+    setKeywords('');
   };
 
   const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sendData({name: componentName, keywords, advanced: advancedSearch});
-    clearData();
   };
 
   const onSuggestionsClearRequested = () => {
@@ -103,13 +106,11 @@ const SearchForm: React.FC<SearchFormProps> = (
     onChange: onChangeComponentName,
     type: "text",
     placeholder: "component name",
-    className: 'form-control SearchForm-ComponentName'
+    className: `form-control ${cnSearchForm('ComponentName')}`
   };
 
-  const codeString = '(me AND you) OR somebody';
-
   return (
-    <Card className={`SearchForm ${className}`}>
+    <Card className={`${cnSearchForm()} ${className}`}>
       <Card.Body>
         <Form>
           <Form.Group controlId="formBasicEmail">
@@ -122,6 +123,11 @@ const SearchForm: React.FC<SearchFormProps> = (
               onSuggestionsFetchRequested={onSuggestionsFetchRequested}
               onSuggestionsClearRequested={onSuggestionsClearRequested}
               renderSuggestionsContainer={renderSuggestionsContainer}
+            />
+            <ClearButton
+              isShow={!!componentName}
+              onClick={clearComponentName}
+              className={cnSearchForm('ClearButton')}
             />
           </Form.Group>
 
@@ -139,36 +145,39 @@ const SearchForm: React.FC<SearchFormProps> = (
                   onChange={onChangePlainKeywords}
                   placeholder="query"
                   type="text"
-                  className="SearchForm-Query"
+                  className={cnSearchForm('Query')}
                 />
             }
-
+            <ClearButton
+              isShow={!!keywords}
+              onClick={clearKeywords}
+              className={cnSearchForm('ClearButton')}
+            />
           </Form.Group>
 
-          <div className='search-and-switch'>
-          <Button
-            onClick={onClickSubmit}
-            variant="primary"
-            type="button"
-          >
-            Search
-          </Button>
-          <OverlayTrigger
-            placement='bottom'
-            key='bottom'
-  overlay={<Tooltip id='Switch-tooltip'>Enables specific syntax: brackets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong syntax.</strong></Tooltip>}>
-            <Form.Group>
-              <Form.Check
-                type='switch'
-                id="switch"
-                label="Advanced Search"
-                onClick={onChangeAdvancedSearch}
-                checked={advancedSearch}
-              >
-              </Form.Check>
-            </Form.Group>
-          </OverlayTrigger>
-          </div>
+          <Form.Group controlId="formBasicEmail" className={cnSearchForm('SearchAndSwitch')}>
+            <Button
+              onClick={onClickSubmit}
+              variant="primary"
+              type="button"
+            >
+              Search
+            </Button>
+            <OverlayTrigger
+              placement='bottom'
+              overlay={<Tooltip id='Switch-tooltip'>Enables specific syntax: brackets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong syntax.</strong></Tooltip>}>
+              <Form.Group className={cnSearchForm('AdvancedSearch')}>
+                <Form.Check
+                  type='switch'
+                  id="switch"
+                  label="Advanced Search"
+                  onChange={onChangeAdvancedSearch}
+                  checked={advancedSearch}
+                >
+                </Form.Check>
+              </Form.Group>
+            </OverlayTrigger>
+          </Form.Group>
         </Form>
       </Card.Body>
     </Card>
