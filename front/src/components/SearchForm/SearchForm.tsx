@@ -14,6 +14,7 @@ import {
 } from "../../utils/apiTypes";
 import InputWithSqlHighlight from "../InputWithSqlHighlight/InputWithSqlHighlight";
 import ClearButton from "../ClearButton/ClearButton";
+import SearchButton from "../SearchButton/SearchButton";
 
 import './SearchForm.css';
 
@@ -88,7 +89,7 @@ const SearchForm: React.FC<SearchFormProps> = (
     setKeywords('');
   };
 
-  const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
+  const onSearchButtonClick = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sendData({name: componentName, keywords, advanced: advancedSearch});
   };
@@ -135,12 +136,12 @@ const SearchForm: React.FC<SearchFormProps> = (
             <Form.Label>query</Form.Label>
             {
               advancedSearch
-              ? <InputWithSqlHighlight
+                ? <InputWithSqlHighlight
                   value={keywords}
                   onChange={onChangeSqlKeywords}
                   placeholder="query"
                 />
-              : <Form.Control
+                : <Form.Control
                   value={keywords}
                   onChange={onChangePlainKeywords}
                   placeholder="query"
@@ -156,16 +157,19 @@ const SearchForm: React.FC<SearchFormProps> = (
           </Form.Group>
 
           <Form.Group controlId="formBasicEmail" className={cnSearchForm('SearchAndSwitch')}>
-            <Button
-              onClick={onClickSubmit}
-              variant="primary"
-              type="button"
-            >
-              Search
-            </Button>
+            <SearchButton
+              isComponentName={!!componentName}
+              isKeywords={!!keywords}
+              onClick={onSearchButtonClick}
+            />
             <OverlayTrigger
               placement='bottom'
-              overlay={<Tooltip id='Switch-tooltip'>Enables specific syntax: brackets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong syntax.</strong></Tooltip>}>
+              overlay={
+                <Tooltip id='Switch-tooltip'>
+                  <div>Enables specific syntax: brackets, wildcards, AND, OR etc.</div>
+                  <div><strong>Warning: throws error on wrong syntax.</strong></div>
+                </Tooltip>
+              }>
               <Form.Group className={cnSearchForm('AdvancedSearch')}>
                 <Form.Check
                   type='switch'

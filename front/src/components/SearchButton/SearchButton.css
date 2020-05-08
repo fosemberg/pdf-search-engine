@@ -1,0 +1,9 @@
+.SearchButton_disabled[class][class][class][class] {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background-color: #007bff;
+  border-color: #007bff;
+  box-shadow: none !important;
+  outline: none;
+  border: none;
+}
