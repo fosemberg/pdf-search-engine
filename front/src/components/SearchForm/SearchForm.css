@@ -29,7 +29,7 @@
   padding: 6px;
 }
 
-.search-and-switch {
+.SearchForm-SearchAndSwitch {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
@@ -41,4 +41,8 @@
   top: -37px;
   right: 1px;
   padding: 6px 12px;
+}
+
+.SearchForm-AdvancedSearch {
+  margin-right: -36px;
 }
