@@ -45,4 +45,9 @@
 
 .SearchForm-AdvancedSearch {
   margin-right: -36px;
+  cursor: pointer;
+}
+
+.SearchForm-AdvancedSearch .custom-control-label {
+  cursor: pointer;
 }
