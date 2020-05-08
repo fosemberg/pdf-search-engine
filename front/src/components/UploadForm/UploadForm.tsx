@@ -91,7 +91,7 @@ const UploadForm: React.FC<UploadFormProps> = (
             isDisabled={sendStatus === SendStatus.sending}
           >
             {sendStatus === SendStatus.sending && <div>
-              During document uploading, text recognition also occurs. It may take more than two minutes to recognize one page. During this process, you can go about your business. Thank you for using our service.
+              During document uploading, text recognition is also performed. It can take more than two minutes to recognize the text. Thank you for your patience and for using our service.
             </div>
             }
           </FileUploader>
