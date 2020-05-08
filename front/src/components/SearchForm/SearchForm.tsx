@@ -3,8 +3,6 @@ import {ComponentElement, useEffect, useState} from "react";
 import {Button, Card, Form, OverlayTrigger, Tooltip} from "react-bootstrap";
 import Autosuggest from 'react-autosuggest';
 
-
-
 import {
   RequestKeywords,
   RequestComponentName,
@@ -14,6 +12,7 @@ import {
   ComponentNames
 } from "../../utils/apiTypes";
 import InputWithSqlHighlight from "../InputWithSqlHighlight/InputWithSqlHighlight";
+import ClearButton from "../ClearButton/ClearButton";
 
 import './SearchForm.css';
 
@@ -76,18 +75,19 @@ const SearchForm: React.FC<SearchFormProps> = (
   const onChangePlainKeywords = (e: React.ChangeEvent<HTMLInputElement>) => setKeywords(e.currentTarget.value);
 
   const [advancedSearch, setAdvancedSearch] = useState<RequestAdvancedSearch>(false)
-  const onChangeAdvancedSearch = (e: React.MouseEvent<HTMLInputElement>) => setAdvancedSearch(e.currentTarget.checked)
+  const onChangeAdvancedSearch = (e: React.ChangeEvent<HTMLInputElement>) => setAdvancedSearch(e.currentTarget.checked)
 
+  const clearComponentName = () => {
+    setComponentName('');
+  };
 
-  const clearData = () => {
-    // setComponentName('');
-    // setKeywords('');
+  const clearKeywords = () => {
+    setKeywords('');
   };
 
   const onClickSubmit = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     sendData({name: componentName, keywords, advanced: advancedSearch});
-    clearData();
   };
 
   const onSuggestionsClearRequested = () => {
@@ -106,8 +106,6 @@ const SearchForm: React.FC<SearchFormProps> = (
     className: 'form-control SearchForm-ComponentName'
   };
 
-  const codeString = '(me AND you) OR somebody';
-
   return (
     <Card className={`SearchForm ${className}`}>
       <Card.Body>
@@ -122,6 +120,10 @@ const SearchForm: React.FC<SearchFormProps> = (
               onSuggestionsFetchRequested={onSuggestionsFetchRequested}
               onSuggestionsClearRequested={onSuggestionsClearRequested}
               renderSuggestionsContainer={renderSuggestionsContainer}
+            />
+            <ClearButton
+              onClick={clearComponentName}
+              className={'SearchForm-ClearButton'}
             />
           </Form.Group>
 
@@ -142,7 +144,10 @@ const SearchForm: React.FC<SearchFormProps> = (
                   className="SearchForm-Query"
                 />
             }
-
+            <ClearButton
+              onClick={clearKeywords}
+              className={'SearchForm-ClearButton'}
+            />
           </Form.Group>
 
           <div className='search-and-switch'>
@@ -155,14 +160,13 @@ const SearchForm: React.FC<SearchFormProps> = (
           </Button>
           <OverlayTrigger
             placement='bottom'
-            key='bottom'
-  overlay={<Tooltip id='Switch-tooltip'>Enables specific syntax: brackets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong syntax.</strong></Tooltip>}>
+            overlay={<Tooltip id='Switch-tooltip'>Enables specific syntax: brackets, wildcards, AND, OR etc. <br/><strong>Warning: throws error on wrong syntax.</strong></Tooltip>}>
             <Form.Group>
               <Form.Check
                 type='switch'
                 id="switch"
                 label="Advanced Search"
-                onClick={onChangeAdvancedSearch}
+                onChange={onChangeAdvancedSearch}
                 checked={advancedSearch}
               >
               </Form.Check>

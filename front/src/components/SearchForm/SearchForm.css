@@ -35,3 +35,10 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.SearchForm-ClearButton[class] {
+  position: relative;
+  top: -37px;
+  right: 1px;
+  padding: 6px 12px;
+}
