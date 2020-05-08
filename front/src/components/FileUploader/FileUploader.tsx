@@ -51,14 +51,17 @@ const FileUploader: React.FC<FileUploaderProps> = (
             : "danger"
         }
       >
-        <Card.Body {...rootProps}>
+        <Card.Body
+          {...rootProps}
+          className={cnFileUploader('Drag-n-drop-body')}
+        >
           {
             !isDisabled && <input{...getInputProps()}/>
           }
           {
             children
               ? children
-              : <p>Drag 'n' drop some files here, or click to select files</p>
+              : <div>Drag 'n' drop some files here, or click to select files</div>
           }
         </Card.Body>
       </Card>

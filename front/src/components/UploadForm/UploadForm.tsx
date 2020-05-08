@@ -90,7 +90,10 @@ const UploadForm: React.FC<UploadFormProps> = (
             {...{onUploadFile, isSuccessLoad}}
             isDisabled={sendStatus === SendStatus.sending}
           >
-            {sendStatus === SendStatus.sending && <p>Disabled while file uploading</p>}
+            {sendStatus === SendStatus.sending && <div>
+              During document uploading, text recognition is also performed. It can take more than two minutes to recognize the text. Thank you for your patience and for using our service.
+            </div>
+            }
           </FileUploader>
           <Button
             onClick={onClickSubmit}
@@ -101,14 +104,16 @@ const UploadForm: React.FC<UploadFormProps> = (
           >
             {
               sendStatus === SendStatus.sending
-                ? <><Spinner
-                  as="span"
-                  animation="grow"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                />
-                  Upload...
+                ? <>
+                  <Spinner
+                    as="span"
+                    animation="grow"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                  />
+                  {' '}
+                  Uploading and recognition...
               </>
                 : 'Upload'
             }
