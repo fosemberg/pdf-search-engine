@@ -1,5 +1,13 @@
 # PDF search engine
 
+## Demo
+
+[![demo](docs/pdf-search-engine-demo-video-preview.jpg)](https://disk.yandex.ru/i/XbzvvcUy0dUPjg)
+
+## Presentation
+
+[![presentation](docs/pdf-search-engine-presentation-preview.jpg)](https://docs.google.com/presentation/d/1y-OUtIW3nXvXbSn-BWsRmvaYVhP_hJA2_fD6fH5om2Q)
+
 ## Docker
 The service is containerized into four containers, one for the [client side](#client-side), another one for the [server side](#server-side), and the last two for the [databases](#databases).
 
